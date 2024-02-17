@@ -58,7 +58,7 @@ def add_brackets(ls):
 
 
 
-dataset_selection = 2
+dataset_selection = 0
 f_train = 1
 f_test = 1
 
@@ -223,7 +223,7 @@ if f_train:
 
 
 if f_test:
-    def one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=512):
+    def one_batch(input_prompts, samples, file_paths, max_new_tokens=512):
         input_tokens = tokenizer(input_prompts, padding='longest', return_tensors="pt")["input_ids"].to("cuda")
 
         with torch.cuda.amp.autocast():
@@ -281,11 +281,11 @@ if f_test:
         file_paths.append(file_path)
 
         if len(input_prompts) >= 4:
-            one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=1024)
+            one_batch(input_prompts, samples, file_paths, max_new_tokens=1024)
             input_prompts = []
             file_paths = []
-            samples_info = []
+            samples = []
 
 
     if len(input_prompts) > 0:
-        one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=1024)
+        one_batch(input_prompts, samples, file_paths, max_new_tokens=1024)

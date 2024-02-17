@@ -242,7 +242,7 @@ if f_train:
 
 
 if f_test:
-    def one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=512):
+    def one_batch(input_prompts, samples, file_paths, max_new_tokens=512):
         input_tokens = tokenizer(input_prompts, padding='longest', return_tensors="pt")["input_ids"].to("cuda")
 
         with torch.cuda.amp.autocast():
@@ -301,11 +301,11 @@ if f_test:
         file_paths.append(file_path)
 
         if len(input_prompts) >= 8:
-            one_batch(tokenizer, input_prompts, samples, file_paths)
+            one_batch(input_prompts, samples, file_paths)
             input_prompts = []
             file_paths = []
-            samples_info = []
+            samples = []
 
 
     if len(input_prompts) > 0:
-        one_batch(tokenizer, input_prompts, samples, file_paths)
+        one_batch(input_prompts, samples, file_paths)
