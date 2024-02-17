@@ -40,17 +40,21 @@ def read_data(dataset_name, filename):
     # Convert list of dictionaries to the desired format
     data_dict = {'story': [item["story"] for item in data],
                  'TG': [item["TG"] for item in data],
-                 'Q': [item["question"] for item in data], 
-                 'A': [item["answer"] for item in data],
-                 'EK': [item["EK"] if "EK" in item else None for item in data],
-                 'CoT': [item["CoT"] if "CoT" in item else None for item in data],
-                 'C': [item["candidates"] if "candidates" in item else None for item in data]}
+                 'entities': [item["Entities"] if "Entities" in item else None for item in data], 
+                 'relation': [item["Relation"] if "Relation" in item else None for item in data],
+                 'times': [item["Times"] if "Times" in item else None for item in data],
+                 'id': [item["id"] if "id" in item else None for item in data]}
 
     # Convert your data into a dataset
     dataset = Dataset.from_dict(data_dict)
 
     return dataset
 
+
+def add_brackets(ls):
+    if '(' not in ls[0] and ')' not in ls[0]:
+        ls = [f'( {e} )' for e in ls]
+    return ls
 
 
 
@@ -60,15 +64,15 @@ f_test = 1
 
 
 
-dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
+dataset_name = ['TGQA', 'TimeQA', 'TempReason'][dataset_selection]
 
-filename = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
+filename = 'Story_TG_Trans_train.json'
 data_train = read_data(dataset_name, filename)
 
-filename = ['TGSR_val.json', 'TGSR_easy_val.json', 'TGSR_hard_val.json', 'TGSR_l2_val.json', 'TGSR_l3_val.json'][dataset_selection]
+filename = 'Story_TG_Trans_val.json'
 data_val = read_data(dataset_name, filename)
 
-filename = ['TGSR_test.json', 'TGSR_easy_test.json', 'TGSR_hard_test.json', 'TGSR_l2_test.json', 'TGSR_l3_test.json'][dataset_selection]
+filename = 'Story_TG_Trans_test.json'
 data_test = read_data(dataset_name, filename)
 
 
@@ -80,26 +84,23 @@ print(data_test)
 
 
 
+def my_generate_prompt(story, TG, entities, relation, times, eos_token="</s>"):
+    if isinstance(story, list):
+        story = '\n'.join(story)
+    if isinstance(times, list):
+        times = ' , '.join(add_brackets(times))
+    if isinstance(entities, list):
+        entities = ' , '.join(add_brackets(entities))
 
+    if entities is None or relation is None or times is None:
+        prompt = f"Extract the timeline based on the story.\n\n{story}\n\nTimeline:\n"
+    else:
+        prompt = f"{story}\n\nGiven the time periods: {times}, summary {relation} as a timeline. Choose from {entities}.\n\nTimeline:\n"
 
-
-def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>"):
-    if isinstance(TG, list):
-        TG = '\n'.join(TG)
-
-    prompt = f"Timeline:\n{TG}\n\nQuestion: {Q}"
-
-    if EK is not None:
-        if isinstance(EK, list):
-            EK = '\n'.join(EK)
-        prompt += f"\n\nUseful information:\n{EK}"
-
-    prompt += "\n\nAnswer: Let's think step by step.\n\n"
-
-    if CoT is not None:
-        if isinstance(CoT, list):
-            CoT = CoT[0]
-        prompt += CoT
+    if TG is not None:
+        if isinstance(TG, list):
+            TG = '\n'.join(TG)
+        prompt += f"{TG}\n"
 
     prompt += eos_token
     return prompt
@@ -111,10 +112,11 @@ for i in range(5):
     if f_train:
         sample = data_train[i]
         eos_token = "</s>"
+        prompt = my_generate_prompt(sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], eos_token=eos_token)
     if f_test:
         sample = data_test[i]
         eos_token = ""
-    prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], sample['CoT'], sample['A'], eos_token=eos_token)
+        prompt = my_generate_prompt(sample['story'], None, sample['entities'], sample['relation'], sample['times'], eos_token=eos_token)
     print(prompt)
     print('===============================')
 
@@ -155,10 +157,10 @@ if f_train:
     model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, lora_config)
 
-    output_dir = f"../model_weights/{dataset_name}"
-    per_device_train_batch_size = 12
+    output_dir = f"../model_weights/{dataset_name}_story_TG_trans"
+    per_device_train_batch_size = 4
     gradient_accumulation_steps = 4
-    per_device_eval_batch_size = 12
+    per_device_eval_batch_size = 4
     eval_accumulation_steps = 4
     optim = "paged_adamw_32bit"
     save_steps = 10
@@ -192,8 +194,8 @@ if f_train:
 
     def formatting_func(sample):
         output = []
-        for g, e, q, cot, a in zip(sample['TG'], sample['EK'], sample['Q'], sample['CoT'], sample['A']):
-            op = my_generate_prompt(g, e, q, cot, a)
+        for s, g, e, r, t in zip(sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times']):
+            op = my_generate_prompt(s, g, e, r, t)
             output.append(op)
 
         return output
@@ -205,7 +207,7 @@ if f_train:
         eval_dataset=data_val,
         peft_config=lora_config,
         formatting_func=formatting_func,
-        max_seq_length=2048,
+        max_seq_length=4096,
         tokenizer=tokenizer,
         args=training_args
     )
@@ -254,10 +256,10 @@ if f_test:
     tokenizer.pad_token_id = 0
     tokenizer.padding_side = 'left'
 
-    peft_model_id = f"../model_weights/{dataset_name}/final"
+    peft_model_id = f"../model_weights/{dataset_name}_story_TG_trans/final"
     peft_model = PeftModel.from_pretrained(model, peft_model_id, torch_dtype=torch.float16, offload_folder="lora_results/lora_7/temp")
 
-    folder_path = f'../results/{dataset_name}'
+    folder_path = f'../results/{dataset_name}_story_TG_trans'
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
 
@@ -271,19 +273,19 @@ if f_test:
             continue
 
         sample = data_test[i]
-        cur_prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], None, None, eos_token='')
+        cur_prompt = my_generate_prompt(sample['story'], None, sample['entities'], sample['relation'], sample['times'], eos_token='')
 
 
         input_prompts.append(cur_prompt)
         samples.append(sample)
         file_paths.append(file_path)
 
-        if len(input_prompts) >= 8:
-            one_batch(tokenizer, input_prompts, samples, file_paths)
+        if len(input_prompts) >= 4:
+            one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=1024)
             input_prompts = []
             file_paths = []
             samples_info = []
 
 
     if len(input_prompts) > 0:
-        one_batch(tokenizer, input_prompts, samples, file_paths)
+        one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=1024)
