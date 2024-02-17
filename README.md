@@ -2,6 +2,8 @@
 
 This repository contains the code for the paper [Large Language Models Can Learn Temporal Reasoning](https://arxiv.org/pdf/2401.06853.pdf).
 
+Our Framework:
+
 <p align="center">
   <img src='https://github.com/xiongsiheng/TG-LLM/blob/main/misc/Framework.png' width=400>
 </p>
