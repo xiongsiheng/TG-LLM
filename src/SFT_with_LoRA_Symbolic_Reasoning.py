@@ -44,7 +44,8 @@ def read_data(dataset_name, filename):
                  'A': [item["answer"] for item in data],
                  'EK': [item["EK"] if "EK" in item else None for item in data],
                  'CoT': [item["CoT"] if "CoT" in item else None for item in data],
-                 'C': [item["candidates"] if "candidates" in item else None for item in data]}
+                 'C': [item["candidates"] if "candidates" in item else None for item in data],
+                 'id': [item['id'] for item in data]}
 
     # Convert your data into a dataset
     dataset = Dataset.from_dict(data_dict)
@@ -61,6 +62,10 @@ f_test = 1
 
 
 dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
+
+
+
+
 
 filename = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
 data_train = read_data(dataset_name, filename)
@@ -80,7 +85,23 @@ print(data_test)
 
 
 
+if f_test:
+    TG_pred = {}
+    path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
+    for filename in os.listdir(path_TG_pred):
+        file_path = os.path.join(path_TG_pred, filename)
+        with open(file_path) as json_file:
+            data = json.load(json_file)
+        TG_pred[data['id']] = data['prediction']
 
+
+def process_id(sample_id):
+    story_id = sample_id
+    if dataset_name == 'TimeQA':
+        story_id = story_id[:-2]
+    if dataset_name == 'TimeQA':
+        story_id = story_id[2:-2]
+    return story_id
 
 
 def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>"):
@@ -110,11 +131,11 @@ def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>"):
 for i in range(5):
     if f_train:
         sample = data_train[i]
-        eos_token = "</s>"
+        prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], sample['CoT'], sample['A'])
     if f_test:
         sample = data_test[i]
-        eos_token = ""
-    prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], sample['CoT'], sample['A'], eos_token=eos_token)
+        story_id = process_id(sample['id'])
+        prompt = my_generate_prompt(TG_pred[story_id], sample['EK'], sample['Q'], sample['CoT'], sample['A'], eos_token="")
     print(prompt)
     print('===============================')
 
@@ -155,7 +176,7 @@ if f_train:
     model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, lora_config)
 
-    output_dir = f"../model_weights/{dataset_name}"
+    output_dir = f"../model_weights/{dataset_name}_TGSR"
     per_device_train_batch_size = 12
     gradient_accumulation_steps = 4
     per_device_eval_batch_size = 12
@@ -254,10 +275,10 @@ if f_test:
     tokenizer.pad_token_id = 0
     tokenizer.padding_side = 'left'
 
-    peft_model_id = f"../model_weights/{dataset_name}/final"
+    peft_model_id = f"../model_weights/{dataset_name}_TGSR/final"
     peft_model = PeftModel.from_pretrained(model, peft_model_id, torch_dtype=torch.float16, offload_folder="lora_results/lora_7/temp")
 
-    folder_path = f'../results/{dataset_name}'
+    folder_path = f'../results/{dataset_name}_TGSR'
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
 
@@ -271,7 +292,8 @@ if f_test:
             continue
 
         sample = data_test[i]
-        cur_prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], None, None, eos_token='')
+        story_id = process_id(sample['id'])
+        cur_prompt = my_generate_prompt(TG_pred[story_id], sample['EK'], sample['Q'], None, None, eos_token='')
 
 
         input_prompts.append(cur_prompt)
