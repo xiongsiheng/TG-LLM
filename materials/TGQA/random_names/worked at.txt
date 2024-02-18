@@ -1,0 +1,400 @@
+Massachusetts Institute of Technology
+Stanford University
+Harvard University
+California Institute of Technology
+University of Oxford
+University of Cambridge
+ETH Zurich
+Imperial College London
+University of Chicago
+UCL (University College London)
+National University of Singapore
+Princeton University
+Nanyang Technological University
+EPFL (École Polytechnique Fédérale de Lausanne)
+Tsinghua University
+University of Pennsylvania
+Yale University
+Columbia University
+University of Michigan
+Johns Hopkins University
+University of Edinburgh
+University of California, Berkeley
+University of Toronto
+Cornell University
+Duke University
+Northwestern University
+University of Hong Kong
+University of California, Los Angeles (UCLA)
+University of Melbourne
+University of British Columbia
+King's College London
+The Australian National University
+University of Sydney
+McGill University
+University of New South Wales
+University of Queensland
+Peking University
+University of Tokyo
+Seoul National University
+University of Wisconsin-Madison
+University of Amsterdam
+Kyoto University
+University of Manchester
+University of California, San Diego
+London School of Economics and Political Science
+Carnegie Mellon University
+University of Illinois at Urbana-Champaign
+Georgia Institute of Technology
+University of Washington
+University of Texas at Austin
+KU Leuven
+University of Zurich
+University of Copenhagen
+Sorbonne University
+Ludwig Maximilian University of Munich
+New York University
+University of North Carolina at Chapel Hill
+University of California, San Francisco
+University of Munich
+University of São Paulo
+Heidelberg University
+University of Southern California
+University of British Columbia
+Purdue University
+University of Maryland, College Park
+University of Minnesota
+Ohio State University
+Boston University
+RMIT University
+University of Groningen
+University of Bristol
+University of Warwick
+University of Glasgow
+University of Helsinki
+University of Southampton
+University of Leeds
+University of Nottingham
+Arizona State University
+University of Virginia
+University of Auckland
+Texas A&M University
+University of Alberta
+University of Sheffield
+University of Iowa
+University of Florida
+University of California, Davis
+University of Pittsburgh
+University of Copenhagen
+Monash University
+University of Oslo
+University of Geneva
+Free University of Berlin
+Delft University of Technology
+University of Rochester
+University of Colorado Boulder
+University of Adelaide
+University of Western Australia
+University of Southampton
+University of Exeter
+University of Sussex
+Massachusetts Institute of Technology
+University of Cambridge
+Stanford University
+Harvard University
+California Institute of Technology
+University of Oxford
+University of Tokyo
+National University of Singapore
+University of Toronto
+Swiss Federal Institute of Technology
+Peking University
+University of Melbourne
+University of Cape Town
+University of São Paulo
+McGill University
+Seoul National University
+University of Helsinki
+University of Buenos Aires
+University of Delhi
+University of Auckland
+King's College London
+University of Zurich
+University of Amsterdam
+University of Copenhagen
+Karolinska Institute
+University of Edinburgh
+University of Hong Kong
+University of British Columbia
+Imperial College London
+University of Sydney
+Tsinghua University
+University of Munich
+University of California, Berkeley
+Paris-Saclay University
+University of Manchester
+University of Vienna
+University of Oslo
+University of Warsaw
+University of Tehran
+University of Rome La Sapienza
+Australian National University
+University of Barcelona
+University of Stockholm
+University of Helsinki
+University of Buenos Aires
+University of São Paulo
+University of Mexico
+Moscow State University
+University of Buenos Aires
+University of Cape Town
+University of Singapore
+University of Cairo
+University of Johannesburg
+University of Nairobi
+University of Delhi
+University of Mumbai
+University of Karachi
+University of Dhaka
+University of Colombo
+University of Tehran
+University of Ankara
+University of Istanbul
+University of Baghdad
+University of Amman
+University of Beirut
+University of Damascus
+University of Riyadh
+University of Kuwait
+University of Doha
+University of Manama
+University of Muscat
+University of Sanaa
+University of Khartoum
+University of Tripoli
+University of Algiers
+University of Tunis
+University of Casablanca
+University of Rabat
+University of Nouakchott
+University of Bamako
+University of Dakar
+University of Conakry
+University of Freetown
+University of Monrovia
+University of Abidjan
+University of Accra
+University of Lomé
+University of Cotonou
+University of Porto-Novo
+University of Lagos
+University of Ibadan
+University of Abuja
+University of Yaoundé
+University of Douala
+University of Libreville
+University of Brazzaville
+University of Kinshasa
+University of Luanda
+University of Windhoek
+University of Gaborone
+Harvard University
+Stanford University
+Massachusetts Institute of Technology (MIT)
+Oxford University
+Cambridge University
+Yale University
+University of California, Berkeley
+Princeton University
+Caltech (California Institute of Technology)
+Imperial College London
+University of Chicago
+University of Toronto
+ETH Zurich
+University of Tokyo
+National University of Singapore
+University of Sydney
+Peking University
+Seoul National University
+King's College London
+University of Hong Kong
+University of Zurich
+Ecole Polytechnique Fédérale de Lausanne (EPFL)
+Tokyo Institute of Technology
+University of Edinburgh
+Australian National University
+University of Copenhagen
+Hong Kong University of Science and Technology
+University of Amsterdam
+University of Munich
+National Taiwan University
+University of Manchester
+University of Vienna
+University of São Paulo
+University of Helsinki
+University of Geneva
+University of British Columbia
+University of Amsterdam
+University of Texas at Austin
+University of Pennsylvania
+University of Sydney
+University of Maryland
+University of Wisconsin-Madison
+University of Arizona
+University of Illinois at Urbana-Champaign
+University of Colorado Boulder
+University of Florida
+University of Washington
+University of Oregon
+University of North Carolina at Chapel Hill
+University of Virginia
+University of Michigan
+University of California, Los Angeles (UCLA)
+University of Southern California (USC)
+New York University (NYU)
+Columbia University
+Cornell University
+University of Chicago
+Northwestern University
+Duke University
+University of Notre Dame
+University of Miami
+Boston University
+University of Maryland, College Park
+University of Pittsburgh
+University of Minnesota
+University of California, San Diego (UCSD)
+University of California, Irvine (UCI)
+University of California, Davis (UCD)
+University of California, Santa Barbara (UCSB)
+University of California, Riverside (UCR)
+University of California, Merced (UCM)
+University of Nevada, Las Vegas (UNLV)
+University of Nevada, Reno (UNR)
+University of Utah
+University of Arizona
+Arizona State University (ASU)
+University of New Mexico
+University of Wyoming
+University of Montana
+University of Idaho
+University of Alaska Fairbanks
+University of Hawaii at Manoa
+University of Guam
+University of the Virgin Islands
+University of Puerto Rico
+University of the District of Columbia
+University of the Bahamas
+University of the Cayman Islands
+University of Belize
+University of Guyana
+University of Suriname
+University of French Guiana
+University of Barbados
+University of Jamaica
+University of Trinidad and Tobago
+University of the West Indies
+University of the South Pacific
+University of Papua New Guinea
+University of the Solomon Islands
+University of Fiji
+University of XYZ
+ABC Research Institute
+Global Innovation Center
+Pacific Institute of Science
+Nova University
+Quantum Research Foundation
+International Technology Institute
+Frontier Research Center
+Unity College
+Millennium Institute of Technology
+Pioneer University
+Nexus Research Institute
+Horizon Science Center
+Aurora University
+Beacon Research Institute
+Starlight Institute of Engineering
+Insight University
+Nexus Science Foundation
+Oceanic Research Center
+Atlas College
+Cosmos Research Institute
+Discovery University
+Prometheus Research Foundation
+Olympus Institute of Technology
+Genesis University
+Harmony Research Center
+Global Sustainability Institute
+Athena University
+Alpha Research Foundation
+Future Tech Institute
+Quantum Science Center
+Infinity University
+Solar Research Institute
+Evolve College
+Phoenix Innovation Center
+Catalyst Research Foundation
+Vertex University
+Alpha Omega Research Institute
+Quest Technology College
+Renaissance University
+Innovation Hub
+Stellar Research Foundation
+Discovery Science Institute
+Pinnacle University
+Alpha Centauri Research Center
+Horizon Innovation Institute
+Terra University
+Prometheus Science Foundation
+Epsilon Research Institute
+Celestial Institute of Engineering
+Fusion College
+Star Research Center
+Quantum University
+Echo Research Foundation
+Horizon Tech Institute
+Beacon University
+Solar Innovation Center
+Pioneer Science Foundation
+Nexus College
+Genesis Research Institute
+Cosmos University
+Athena Research Foundation
+Discovery Tech Institute
+Infinity Research Center
+Aurora College
+Frontier Science Foundation
+Insight Tech University
+Oceanic Research Institute
+Global Innovation Hub
+Harmony University
+Nova Research Center
+Millennium Institute of Science
+Quest College
+Alpha Science Center
+Catalyst University
+Renaissance Research Foundation
+Terra Tech College
+Solar Science Institute
+Beacon Innovation Center
+Vertex University
+Quantum Research Foundation
+Pinnacle Science Institute
+Starlight College
+Celestial Research Center
+Alpha Omega University
+Horizon Innovation Hub
+Epsilon Research Institute
+Genesis Tech College
+Phoenix University
+Prometheus Research Foundation
+Catalyst Science Center
+Beacon Research Institute
+Discovery University
+Renaissance Research Center
+Insight Innovation Institute
+Terra College
+Solar Science Foundation
+Horizon Tech University
+Nexus Innovation Hub
+Alpha Centauri Research Center

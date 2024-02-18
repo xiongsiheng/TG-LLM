@@ -1,0 +1,800 @@
+Manchester United
+FC Barcelona
+Bayern Munich
+Real Madrid
+Liverpool FC
+Juventus
+Paris Saint-Germain
+Chelsea FC
+Borussia Dortmund
+AC Milan
+Arsenal FC
+Inter Milan
+Atletico Madrid
+Manchester City
+Tottenham Hotspur
+Ajax Amsterdam
+Napoli
+AS Roma
+Valencia CF
+Everton FC
+FC Porto
+Boca Juniors
+River Plate
+Flamengo
+Santos FC
+Corinthians
+Palmeiras
+Sao Paulo FC
+Fluminense
+Cruzeiro
+Santos Laguna
+Tigres UANL
+Club America
+Monterrey
+Chivas Guadalajara
+Barcelona SC
+Emelec
+Liga De Quito
+Independiente
+Racing Club
+Boca Juniors
+San Lorenzo
+Newell's Old Boys
+Colo-Colo
+Universidad de Chile
+Flamengo
+Vasco da Gama
+Internacional
+Atletico Mineiro
+Gremio
+Sao Paulo FC
+Cruzeiro
+Santos FC
+Palmeiras
+Corinthians
+River Plate
+Boca Juniors
+Independiente
+Racing Club
+San Lorenzo
+Velez Sarsfield
+Flamengo
+Botafogo
+Atletico Paranaense
+Fluminense
+Barcelona SC
+Emelec
+Liga De Quito
+Sporting CP
+Benfica
+FC Porto
+Ajax Amsterdam
+PSV Eindhoven
+Feyenoord
+AZ Alkmaar
+Celtic FC
+Rangers FC
+Galatasaray
+Fenerbahce
+Besiktas
+Olympique Marseille
+AS Monaco
+Lyon
+AS Saint-Etienne
+Borussia Monchengladbach
+Schalke 04
+Bayer Leverkusen
+Eintracht Frankfurt
+RB Leipzig
+RB Salzburg
+Celtic FC
+Rangers FC
+Porto FC
+Sporting CP
+Benfica
+Besiktas
+Fenerbahce
+Galatasaray
+Olympiacos
+Panathinaikos
+Red Devils FC
+Lions United
+Blue Stars FC
+Thunder Strikers
+Golden Eagles
+Green Dragons
+Black Panthers
+White Wolves
+Skyhawks FC
+Royal Tigers
+Crimson Warriors
+Azure Knights
+Silver Spartans
+Blaze FC
+Dynamo Rangers
+Phoenix Titans
+Knightsbridge United
+Firestorm FC
+Emerald Eagles
+Celestial Lions
+Sapphire Serpents
+Thunderbolt FC
+Indigo Vipers
+Jade Jaguars
+Astral Blazers
+Cobalt Crusaders
+Scarlet Scorpions
+Steel Hawks
+Platinum Pioneers
+Cosmic Guardians
+Neon Falcons
+Crimson Cavaliers
+Blaze Warriors
+Midnight Wolves
+Solar Bears
+Inferno United
+Meteor Strikers
+Vanguard Vultures
+Thunderclap FC
+Royal Monarchs
+Starlight FC
+Black Thunderbolts
+Ivory Rhinos
+Azure Phoenix
+Galactic Knights
+Silver Sentinels
+Ruby Rapids
+Obsidian Guardians
+Firebrand FC
+Onyx Owls
+Avalanche Athletico
+Neon Knights
+Crimson Cosmos
+Blue Cyclones
+Steel Sabres
+Serenity FC
+Jade Jaguars
+Thunderstrike Titans
+Solar Flare FC
+Cobalt Comets
+Shadow Stalkers
+Platinum Pumas
+Celestial Sentinels
+Inferno Blazers
+Starship Strikers
+Thunderclap Thunderbirds
+Velvet Vipers
+Ruby Rhinos
+Astral Astros
+Emerald Eagles
+Lightning Lions
+Firestorm Falcons
+Onyx Owls
+Azure Avengers
+Golden Griffins
+Royal Rangers
+Midnight Marauders
+Silver Stormtroopers
+Crimson Crushers
+Solar Surfers
+Black Blizzard FC
+Platinum Panthers
+Thunder Serpents
+Jade Jets
+Blaze Bears
+Shadowhawks FC
+Celestial Centurions
+Cobalt Crushers
+Neon Nomads
+Ruby Raptors
+Steel Strikers
+Indigo Icemen
+Avalanche Arsenal
+Meteor Mavericks
+Blackhole Bombers
+Thunderstrike Thundercats
+Ivory Ironclads
+Starlight Strikers
+Cosmic Comets
+Firefly FC
+Red Devils FC
+Lions United
+Blue Thunder
+Phoenix FC
+Tigers FC
+White Eagles
+Dynamo Stars
+Golden Strikers
+Green Dragons
+Black Panthers
+Royal Titans
+Silver Spurs
+Crimson Warriors
+Blaze FC
+Thunderbolts
+Skyhawks
+Storm Riders
+Emerald Warriors
+Scarlet Hawks
+Flame United
+Maroon Mavericks
+Lightning FC
+Knights FC
+Titans United
+Azure Storm
+Cobalt Rangers
+Galaxy Guardians
+Aqua Dolphins
+Tigersharks
+Golden Flames
+Red Arrows
+Blue Lightning
+Emerald Bulls
+Royal Lions
+Crimson Fury
+Platinum Pioneers
+Blaze Thunder
+Dynamo Hawks
+Phoenix Warriors
+Black Dragons
+Silver Spartans
+Thunder Strikers
+Sky Warriors
+Storm Eagles
+Green Hornets
+Fire Titans
+Scarlet Sharks
+Lightning Storm
+Blaze Knights
+Cobalt Chargers
+Galaxy Hawks
+Aqua Wolves
+Tigers United
+Golden Lions
+Red Devils United
+Blue Titans
+Dynamo Panthers
+Phoenix Thunder
+Black Knights
+Silver Tigers
+Crimson Sharks
+Blaze Wolves
+Thunder Warriors
+Sky Dolphins
+Storm Flames
+Royal Strikers
+Emerald Dragons
+Platinum Eagles
+Knights United
+Aqua Titans
+Cobalt Thunderbolts
+Galaxy Spartans
+Tigers Fury
+Golden Thunder
+Red Phoenix
+Blue Lions
+Dynamo Titans
+Black Thunder
+Silver Knights
+Crimson Dolphins
+Blaze Falcons
+Lightning Wolves
+Storm United
+Emerald Tigers
+Scarlet Stars
+Tigersharks FC
+Royal Wolves
+Thunderbolts United
+Aqua Thunder
+Cobalt Falcons
+Galaxy Tigers
+Golden Storm
+Red Knights
+Blue Eagles
+Dynamo Sharks
+Black Blaze
+Silver Titans
+Crimson Lions
+Lightning Phoenix
+Blaze Falcons United
+Barcelona
+Manchester United
+Juventus
+Bayern Munich
+Real Madrid
+Liverpool
+Paris Saint-Germain
+Chelsea
+AC Milan
+Borussia Dortmund
+Arsenal
+Inter Milan
+Atletico Madrid
+Manchester City
+Ajax
+Tottenham Hotspur
+AS Roma
+Sevilla
+Benfica
+Porto
+Lyon
+Napoli
+Lazio
+Valencia
+Schalke 04
+Celtic
+Monaco
+Galatasaray
+Boca Juniors
+River Plate
+Flamengo
+São Paulo
+Corinthians
+Cruz Azul
+Club America
+Santos
+Gremio
+Palmeiras
+Internacional
+Athletic Bilbao
+Zenit Saint Petersburg
+Olympiacos
+Fenerbahce
+PSV Eindhoven
+Rangers
+Marseille
+Fiorentina
+Shakhtar Donetsk
+Bayer Leverkusen
+Wolfsburg
+Villarreal
+Feyenoord
+Besiktas
+Sporting CP
+Dynamo Kyiv
+Eintracht Frankfurt
+Hoffenheim
+Leicester City
+West Ham United
+Real Sociedad
+Genk
+Anderlecht
+AZ Alkmaar
+Leeds United
+Southampton
+Everton
+Celta Vigo
+Getafe
+Sampdoria
+Torino
+Genoa
+VfB Stuttgart
+Hertha Berlin
+Werder Bremen
+RB Leipzig
+Al Ahly
+Zamalek
+Etoile du Sahel
+Espérance de Tunis
+Raja Casablanca
+Wydad Casablanca
+Kaizer Chiefs
+Orlando Pirates
+Mamelodi Sundowns
+Club Brugge
+Gent
+Standard Liège
+Pachuca
+Tigres UANL
+Toluca
+Atlas
+Chivas Guadalajara
+Querétaro
+Monterrey
+Pumas UNAM
+Morelia
+Santos Laguna
+Necaxa
+Urawa Red Diamonds
+Kawasaki Frontale
+Etoile du Sahel
+Rangers
+Shakhtar Donetsk
+PSV Eindhoven
+Palmeiras
+Standard Liege
+Wolfsburg
+Maccabi Tel Aviv
+Club America
+Napoli
+Dinamo Zagreb
+Dynamo Kyiv
+Sevilla
+Tottenham Hotspur
+Monterrey
+Malmo
+Zamalek
+River Plate
+Marseille
+Flamengo
+Porto
+Red Star Belgrade
+Rosenborg
+Chivas Guadalajara
+AIK
+Monaco
+Boca Juniors
+Lazio
+Athletic Bilbao
+Chelsea
+Racing Club
+Inter Milan
+Lech Poznan
+Fiorentina
+Cruzeiro
+Orlando Pirates
+Rapid Vienna
+Barcelona
+Galatasaray
+Legia Warsaw
+Atlanta United
+Bayern Munich
+Gremio
+Tigres UANL
+Esperance de Tunis
+Paris Saint-Germain
+Atletico Madrid
+Hajduk Split
+Feyenoord
+Steaua Bucharest
+TP Mazembe
+Manchester United
+Molde
+Bayer Leverkusen
+Red Bull Salzburg
+Villarreal
+Penarol
+Dinamo Bucharest
+Juventus
+Real Madrid
+Olympiacos
+Corinthians
+Zenit St. Petersburg
+Schalke 04
+Partizan Belgrade
+Manchester City
+Benfica
+Spartak Moscow
+Valencia
+Basel
+Fenerbahce
+Independiente
+Nacional
+Pumas UNAM
+Lyon
+AS Roma
+Cruz Azul
+Copenhagen
+Young Boys
+APOEL
+Sao Paulo
+Ajax
+Al Ahly
+Ludogorets Razgrad
+Real Betis
+San Lorenzo
+AC Milan
+Anderlecht
+Sparta Prague
+Arsenal
+Celtic
+LA Galaxy
+Internacional
+Borussia Dortmund
+Kaizer Chiefs
+Club Brugge
+Slavia Prague
+Santos
+Liverpool
+CSKA Moscow
+Thunderhawks
+Red River Rattlers
+Blue Ridge Bisons
+Desert Scorpions
+Golden Eagles
+Silver Foxes
+Coastal Sharks
+Prairie Falcons
+Mountain Lions
+Bayou Bandits
+Midnight Owls
+Crimson Coyotes
+Pinecrest Pioneers
+Sandstorm Strikers
+Granite Grizzlies
+Harbor Hawks
+Ghost Riders
+Thunderstorm Titans
+Redwood Roosters
+Steel City Sluggers
+Desert Mirage
+Polar Bears
+Silverlake Stars
+Swamp Stingers
+Cascade Crushers
+Thundering Herd
+Copper Canyon Coyotes
+Prairie Dogs
+Rocky Mountain Renegades
+Coastal Cobras
+Timberwolves
+Avalanche Aces
+Silver Sirens
+Desert Dusters
+Black Bear Blasters
+Bay Breezers
+Moonlight Mavericks
+Dust Devils
+Sandcastle Storm
+Granite Goblins
+Tidal Wave Tornadoes
+Firestone Flames
+Thunderstruck Tigers
+Redwood Raptors
+Rusty Anchors
+Cedar Grove Crushers
+Lightning Lynx
+Mountain Thunder
+Bayview Beavers
+Midnight Marlins
+Crimson Cobras
+Prairie Hawks
+Granite Gnomes
+Harbor Heroes
+Desert Dragons
+Polar Plungers
+Silverlake Scorpions
+Swamp Sharks
+Cascade Coyotes
+Thundering Tornadoes
+Copper Canyon Crushers
+Prairie Panthers
+Rocky Rapids
+Coastal Cheetahs
+Avalanche All-Stars
+Silver Serpents
+Desert Devils
+Black Bear Bandits
+Bayou Blazers
+Moonlight Minnows
+Dusty Diamonds
+Sandcastle Scorpions
+Granite Gargoyles
+Tidal Wave Turtles
+Firestone Foxes
+Thundering Thunderbirds
+Redwood Rhinos
+Rusty Rockets
+Cedar Grove Comets
+Lightning Llamas
+Mountain Moose
+Bayview Buzzards
+Midnight Marlins
+Crimson Cubs
+Prairie Pumas
+Granite Geckos
+Harbor Hurricanes
+Desert Dynamos
+Polar Penguins
+Silverlake Salamanders
+Swamp Serpents
+Cascade Cougars
+Thundering Taipans
+Copper Canyon Chameleons
+Prairie Pythons
+Rocky Roadrunners
+Coastal Coyotes
+Avalanche Apaches
+Silver Stingrays
+Desert Demons
+Thunder Bats
+Midnight Wolves
+Harbor Hawks
+Desert Scorpions
+Alpine Avalanche
+Prairie Pioneers
+Coastal Crawfish
+Bayou Bandits
+Mountain Mavericks
+Iron Hammers
+Thunderstruck
+Prairie Foxes
+Desert Dragons
+Rocky Ridge Rhinos
+Timberwolves
+Canyon Coyotes
+Storm Surge
+Avalanche Alchemists
+Desert Demons
+Harbor Harriers
+Sunset Sabers
+Silver Stars
+Frontier Flyers
+Thunder Tornadoes
+Oasis Owls
+Golden Grizzlies
+Stormchasers
+Coastline Crushers
+Cactus Comets
+Mesa Marauders
+Avalanche Armadillos
+Sandstorm Sluggers
+Rocky River Rattlesnakes
+Prairie Panthers
+Sunburnt Serpents
+Harbor Heroes
+Mountain Miners
+Thunder Troopers
+Desert Dusters
+Silver Spartans
+Timber Tigers
+Canyon Crushers
+Storm Riders
+Avalanche Aztecs
+Oasis Orcas
+Red Rock Rhinos
+Prairie Piranhas
+Desert Ducks
+Harbor Hawks
+Mountain Mustangs
+Thunder Titans
+Coastal Cobras
+Bayou Buccaneers
+Timberwolves
+Sandstorm Scorpions
+Rocky Ridge Raiders
+Desert Devils
+Avalanche Aviators
+Oasis Otters
+Prairie Pumas
+Harbor Hurricanes
+Thunder Turtles
+Mountain Monsters
+Desert Dawgs
+Coastal Cyclones
+Timber Terriers
+Canyon Crawlers
+Storm Seekers
+Avalanche Astronauts
+Oasis Ocelots
+Rocky Ridge Ravens
+Prairie Pythons
+Desert Drifters
+Harbor Hornets
+Mountain Marksmen
+Thunder Thunderbirds
+Coastal Chameleons
+Bayou Bats
+Timber Timberwolves
+Sandstorm Sabercats
+Avalanche Armadillos
+Oasis Owls
+Rocky Ridge Rhinoceroses
+Prairie Porcupines
+Desert Dragons
+Harbor Hounds
+Mountain Monarchs
+Thunder Twisters
+Coastal Corsairs
+Cactus Cougars
+Mesa Mavericks
+Avalanche Alchemists
+Sandstorm Stingers
+Rocky River Raccoons
+Prairie Panthers
+Sunburnt Snakes
+Harbor Heroes
+Mountain Miners
+Thunder Trojans
+Desert Dynamos
+Thundercats
+Cyclone Sluggers
+Iron Hammers
+Wildfire Warriors
+Lightning Strikes
+Avalanche Aces
+Phoenix Flyers
+Lava Lancers
+Whirlwind Wonders
+Frostbite Falcons
+Timberwolves
+Scorpion Stingers
+Quicksilver Crushers
+Razorback Rivals
+Banshee Bats
+Thunderbolt Titans
+Raging Bulls
+Viper Vultures
+Stardust Stalkers
+Cobra Kings
+Blackout Bandits
+Mirage Marlins
+Wraith Wildcats
+Frostbite Foxes
+Cyclone Coyotes
+Blizzard Bears
+Firestorm Foxhounds
+Meteor Mambas
+Avalanche Armadillos
+Storm Surge Sabres
+Thunder Thieves
+Avalanche Aztecs
+Venom Vipers
+Inferno Invaders
+Starfall Stingers
+Shadow Serpents
+Silverback Scorpions
+Avalanche Alchemists
+Phantom Phantoms
+Eclipse Eagles
+Quasar Quakers
+Monsoon Monarchs
+Quicksilver Quails
+Thunderhead Tigers
+Tempest Tornadoes
+Avalanche Apaches
+Red Rock Rattlers
+Blizzard Bisons
+Lightning Lynx
+Thunderstrike Tortoises
+Steel City Stallions
+Hurricane Hornets
+Ghost Riders
+Ember Elephants
+Avalanche Archers
+Thunder Threshers
+Frostbite Falcons
+Shadow Sharks
+Venom Vultures
+Inferno Impalas
+Avalanche Astronauts
+Storm Surge Seahorses
+Lightning Llamas
+Mystic Marlins
+Thunder Tribe
+Cyclone Cobras
+Avalanche Astronomers
+Blizzard Beavers
+Firecracker Falcons
+Meteor Minks
+Avalanche Avengers
+Thunderstrike Turtles
+Steel City Salamanders
+Hurricane Hawks
+Ghostly Griffins
+Ember Echidnas
+Avalanche Artisans
+Thunder Tridents
+Frostbite Foxhounds
+Shadow Spiders
+Venom Vipers
+Inferno Iguanas
+Avalanche Apothecaries
+Storm Surge Stingrays
+Lightning Leopards
+Mystic Marmosets
+Thunder Tornadoes
+Cyclone Chameleons
+Avalanche Architects
+Blizzard Badgers
+Fireball Falcons
+Meteor Meerkats
+Avalanche Admirals
+Thunderstorm Tarsiers
+Steel City Sloths
+Hurricane Herons
+Ghostly Geckos
+Ember Elk
+Avalanche Assassins
+Thunder Tyrants

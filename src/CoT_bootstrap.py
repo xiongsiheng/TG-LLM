@@ -182,6 +182,9 @@ def CoT_bootstrap(data, filename):
             data_new += samples
             input_prompts = []
             input_samples = []
+            # for sample in samples:
+            #     print(sample)
+            #     print('------------------')
 
 
     if len(input_prompts) > 0:

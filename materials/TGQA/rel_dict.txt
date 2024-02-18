@@ -1,0 +1,10 @@
+was born in	is, born;
+died in	die;
+worked at	work at
+played for	play for
+won prize	win prize
+was married to	is, married to
+owned	own
+studied in	study;
+was affiliated to	is, affiliated to
+created	create

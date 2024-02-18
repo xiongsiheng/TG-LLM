@@ -65,15 +65,13 @@ dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_
 
 
 
-
-
-filename = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
+filename = ['TGSR_train.json', 'TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
 data_train = read_data(dataset_name, filename)
 
-filename = ['TGSR_val.json', 'TGSR_easy_val.json', 'TGSR_hard_val.json', 'TGSR_l2_val.json', 'TGSR_l3_val.json'][dataset_selection]
+filename = ['TGSR_val.json', 'TGSR_val.json', 'TGSR_easy_val.json', 'TGSR_hard_val.json', 'TGSR_l2_val.json', 'TGSR_l3_val.json'][dataset_selection]
 data_val = read_data(dataset_name, filename)
 
-filename = ['TGSR_test.json', 'TGSR_easy_test.json', 'TGSR_hard_test.json', 'TGSR_l2_test.json', 'TGSR_l3_test.json'][dataset_selection]
+filename = ['TGSR_test.json', 'TGSR_test.json', 'TGSR_easy_test.json', 'TGSR_hard_test.json', 'TGSR_l2_test.json', 'TGSR_l3_test.json'][dataset_selection]
 data_test = read_data(dataset_name, filename)
 
 
@@ -104,9 +102,17 @@ def process_id(sample_id):
     return story_id
 
 
-def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>"):
+def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>", flag_rm_irr_edges=True, flag_change_relations=True, flag_change_entities=True, flag_change_times=True):
     if isinstance(TG, list):
         TG = '\n'.join(TG)
+
+
+    if flag_rm_irr_edges:
+        TG = rm_irr_edges(TG, CoT, Q)
+
+
+    if flag_change_relations:
+        TG = change_rels(TG)
 
     prompt = f"Timeline:\n{TG}\n\nQuestion: {Q}"
 
@@ -122,12 +128,196 @@ def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>"):
             CoT = CoT[0]
         prompt += CoT
 
+    if flag_change_entities:
+        prompt = change_entities(TG, prompt)
+
+    if flag_change_times:
+        prompt = change_times(TG, prompt)
+
+
     prompt += eos_token
     return prompt
 
 
 
+def rm_irr_edges(TG, CoT, Q):
+    facts_ls = TG.split('\n')
+    rm_facts = [i for (i, fact) in enumerate(facts_ls) if (fact[:-len(fact.split(')')[-1])].strip() not in CoT) and (fact[:-len(fact.split(')')[-1])].strip() not in Q)]
+    random.shuffle(rm_facts)
+    rm_facts = rm_facts[:int(0.2*len(rm_facts))]
+    facts_ls = [fact for (i, fact) in enumerate(facts_ls) if i not in rm_facts]
+    TG = '\n'.join(facts_ls)
+    return TG
 
+
+
+
+def change_rels(TG):
+    with open('../materials/TGQA/rel_synonyms.txt', 'r') as file:
+        contents = file.readlines()
+
+    rel_synonyms = {}
+    for line in contents:
+        if len(line.strip()) > 0:
+            rel = line.split('\t')[0].strip()
+            rel_synonyms[rel] = line.split('\t')
+
+
+    facts_ls = TG.split('\n')
+    facts_new_ls = []
+    for fact in facts_ls:
+        fact_front = fact[:-len(fact.split(')')[-1])].strip()[1:-1]
+        fact_back = fact[-len(fact.split(')')[-1]):]
+        for rel in rel_synonyms:
+            if ' ' + rel in fact_front:
+                sub = fact_front.split(rel)[0].strip()
+                obj = fact_front.split(rel)[1].strip()
+                fact_new = f'({sub} {random.choice(rel_synonyms[rel]).strip()} {obj}){fact_back}'
+                facts_new_ls.append(fact_new)
+                break
+
+    TG = '\n'.join(facts_new_ls)
+    return TG
+
+
+
+def change_times(TG, prompt):
+    facts_ls = TG.split('\n')
+    mapping_time = {}
+    time_offset = random.randint(-20, min(20, 2024 - int(facts_ls[-1].split(' at ')[-1])))
+
+    for fact in facts_ls:
+        time = fact.split(' at ')[-1]
+        mapping_time[time] = str(int(time) + time_offset)
+        mapping_time[time] = mapping_time[time][0] + '_' + mapping_time[time][1:]
+
+    for time in mapping_time:
+        prompt = prompt.replace(time, mapping_time[time])
+
+    prompt = prompt.replace('_', '')
+    return prompt
+
+
+
+def change_entities(TG, prompt):
+    def collect_entity():
+        with open('../materials/TGQA/rel_dict.txt', 'r') as file:
+            contents = file.readlines()
+
+        rel_entity_dict = {}
+        for line in contents:
+            if len(line.strip()) > 0:
+                rel = line.split('\t')[0].strip()
+                rel_entity_dict[rel] = {'sub': [], 'obj': []}
+
+        def process_ent(rel_entity_dict, data):
+            for i in range(len(data)):
+                sample = data[i]
+                facts_ls = sample['TG'].split('\n')
+                for fact in facts_ls:
+                    fact = fact[:-len(fact.split(')')[-1])].strip()[1:-1]
+                    for rel in rel_entity_dict:
+                        if ' ' + rel in fact:
+                            rel_entity_dict[rel]['sub'].append(fact.split(rel)[0].strip())
+                            rel_entity_dict[rel]['obj'].append(fact.split(rel)[1].strip())
+                            break
+            return rel_entity_dict
+
+        rel_entity_dict = process_ent(rel_entity_dict, data_train)
+        rel_entity_dict = process_ent(rel_entity_dict, data_val)
+        rel_entity_dict = process_ent(rel_entity_dict, data_test)
+
+        for rel in rel_entity_dict:
+            rel_entity_dict[rel]['sub'] = list(set(rel_entity_dict[rel]['sub']))
+            rel_entity_dict[rel]['obj'] = list(set(rel_entity_dict[rel]['obj']))
+
+        sub_total = []
+        for rel in rel_entity_dict:
+            sub_total += rel_entity_dict[rel]['sub']
+        sub_total = list(set(sub_total))
+        rel_entity_dict['sub_total'] = sub_total
+
+        return rel_entity_dict
+
+
+    def collect_entity_v2(existing_names=None):
+        path = '../materials/TGQA/random_names'
+        with open(f'{path}/sub_total.txt') as file:
+            context = file.readlines()
+
+        sub_total = [line.strip() for line in context]
+        sub_total = list(set(sub_total))
+
+        ent_names = {}
+        for file_path in os.listdir(path):
+            if file_path != 'sub_total.txt':
+                with open(f'{path}/{file_path}') as file:
+                    context = file.read()
+                rel = file_path.split('.')[0]
+                ent_names[rel] = {}
+                ent_names[rel]['obj'] = context.strip().split('\n')
+                ent_names[rel]['obj'] = list(set(ent_names[rel]['obj']))
+
+
+        if existing_names is not None:
+            sub_total = [name for name in sub_total if name not in existing_names['sub_total']]
+            random.shuffle(sub_total)
+            for rel in ent_names:
+                ent_names[rel]['obj'] = [name for name in ent_names[rel]['obj'] if name not in existing_names[rel]['obj']]
+                random.shuffle(ent_names[rel]['obj'])
+            ent_names['sub_total'] = sub_total
+
+        return ent_names
+
+
+    rel_entity_dict = collect_entity()
+    random_entity_names = collect_entity_v2(rel_entity_dict)
+
+    facts_ls = TG.split('\n')
+    for fact in facts_ls:
+        fact = fact[:-len(fact.split(')')[-1])].strip()[1:-1]
+        for rel in rel_entity_dict:
+            if ' ' + rel in fact:
+                sub = fact.split(rel)[0].strip()
+                obj = fact.split(rel)[1].strip()
+                if sub not in global_ent_mapping:
+                    if 'sub_total' not in global_names_cnt:
+                        global_names_cnt['sub_total'] = 0
+                    global_ent_mapping[sub] = random_entity_names['sub_total'][global_names_cnt['sub_total']]
+                    global_names_cnt['sub_total'] += 1
+
+                if obj not in global_ent_mapping:
+                    if rel in ['was married to']:
+                        # mapping[obj] = create_new_person()
+                        if 'sub_total' not in global_names_cnt:
+                            global_names_cnt['sub_total'] = 0
+                        global_ent_mapping[obj] = random_entity_names['sub_total'][global_names_cnt['sub_total']]
+                        global_names_cnt['sub_total'] += 1
+
+                    else:
+                        if rel not in global_names_cnt:
+                            global_names_cnt[rel] = 0
+
+                        valid_name = random_entity_names[rel]['obj'][global_names_cnt[rel]]
+                        while valid_name in global_ent_mapping.values():
+                            global_names_cnt[rel] += 1
+                            valid_name = random_entity_names[rel]['obj'][global_names_cnt[rel]]
+
+                        global_ent_mapping[obj] = copy.copy(valid_name)
+                break
+
+    for entity in global_ent_mapping:
+        prompt = prompt.replace(entity, global_ent_mapping[entity])
+
+    return prompt
+
+
+
+
+
+
+global_ent_mapping = {}
+global_names_cnt = {}
 for i in range(5):
     if f_train:
         sample = data_train[i]
@@ -138,6 +328,7 @@ for i in range(5):
         prompt = my_generate_prompt(TG_pred[story_id], sample['EK'], sample['Q'], sample['CoT'], sample['A'], eos_token="")
     print(prompt)
     print('===============================')
+
 
 
 
@@ -242,7 +433,7 @@ if f_train:
 
 
 if f_test:
-    def one_batch(input_prompts, samples, file_paths, max_new_tokens=512):
+    def one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=512):
         input_tokens = tokenizer(input_prompts, padding='longest', return_tensors="pt")["input_ids"].to("cuda")
 
         with torch.cuda.amp.autocast():
@@ -301,11 +492,11 @@ if f_test:
         file_paths.append(file_path)
 
         if len(input_prompts) >= 8:
-            one_batch(input_prompts, samples, file_paths)
+            one_batch(tokenizer, input_prompts, samples, file_paths)
             input_prompts = []
             file_paths = []
             samples = []
 
 
     if len(input_prompts) > 0:
-        one_batch(input_prompts, samples, file_paths)
+        one_batch(tokenizer, input_prompts, samples, file_paths)
