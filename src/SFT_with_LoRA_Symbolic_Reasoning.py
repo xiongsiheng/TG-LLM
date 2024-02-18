@@ -102,7 +102,7 @@ def process_id(sample_id):
     return story_id
 
 
-def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>", flag_rm_irr_edges=True, flag_change_relations=True, flag_change_entities=True, flag_change_times=True):
+def my_generate_prompt(TG, EK, Q, CoT, A, eos_token="</s>", flag_rm_irr_edges=False, flag_change_relations=False, flag_change_entities=False, flag_change_times=False):
     if isinstance(TG, list):
         TG = '\n'.join(TG)
 
@@ -321,7 +321,9 @@ global_names_cnt = {}
 for i in range(5):
     if f_train:
         sample = data_train[i]
-        prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], sample['CoT'], sample['A'])
+        prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'], sample['CoT'], sample['A'], 
+                                    flag_rm_irr_edges=True, flag_change_relations=True, 
+                                    flag_change_entities=True, flag_change_times=True)
     if f_test:
         sample = data_test[i]
         story_id = process_id(sample['id'])
