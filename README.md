@@ -1,4 +1,4 @@
-## Under Construction
+## TG-LLM: Large Language Models Can Learn Temporal Reasoning
 
 This repository contains the code for the paper [Large Language Models Can Learn Temporal Reasoning](https://arxiv.org/pdf/2401.06853.pdf).
 
@@ -7,6 +7,13 @@ Our Framework:
 <p align="center">
   <img src='https://github.com/xiongsiheng/TG-LLM/blob/main/misc/Framework.png' width=400>
 </p>
+
+# How to run
+```sh
+python SFT_with_LoRA_text_to_TG_Trans.py
+python CoT_bootstrap.py
+python SFT_with_LoRA_Symbolic_Reasoning.py
+```
 
 ## Dataset
 
