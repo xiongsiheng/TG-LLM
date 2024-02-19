@@ -41,7 +41,7 @@ model_name = ['gpt-3.5-turbo', 'gpt-4-1106-preview', 'Llama-2-7b-hf', 'Llama-2-1
 def read_data(dataset_name, filename):
     file_path = f'../dataset/{dataset_name}/{filename}'
     with open(file_path) as json_file:
-        data = json.load(json_file)[:10]
+        data = json.load(json_file)
 
     # Convert list of dictionaries to the desired format
     data_dict = {'story': [item["story"] for item in data],
