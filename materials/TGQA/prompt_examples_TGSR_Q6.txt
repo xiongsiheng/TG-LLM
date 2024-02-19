@@ -1,0 +1,30 @@
+Timeline:
+(Jack Thompson was born in Boston) starts at 1921
+(Jack Thompson won prize Rosewood Award) starts at 1956
+(Jack Thompson was married to Emily Cooper) starts at 1972
+(Emily Cooper was married to Jack Thompson) starts at 1972
+(Jack Thompson won prize Londoner Championship) starts at 1974
+(Jack Thompson won prize Samuel Montgomery Award) starts at 1985
+(Jack Thompson died in Cypress Valley) starts at 1989
+(Jack Thompson was married to Emily Cooper) ends at 1989
+(Emily Cooper was married to Jack Thompson) ends at 1989
+(Emily Cooper died in Wanderers) starts at 2011
+
+Question: True or false: event (Emily Cooper was married to Jack Thompson) was still happening when event (Emily Cooper died in Wanderers) started?
+
+Useful information:
+1921 before 1956 before 1972 before 1974 before 1985 before 1989
+1972 - 1921 = 51
+1972 - 1956 = 16
+1985 - 1921 = 64
+1989 - 1972 = 17
+16 < 17 < 51 < 64
+
+Answer: Let's think step by step.
+
+To solve this problem, we need to compare the start and end dates of the two events in question:
+
+(Emily Cooper was married to Jack Thompson) ends at 1989
+(Emily Cooper died in Wanderers) starts at 2011
+
+Since 1989 is before 2011 , thus, the answer is False . 

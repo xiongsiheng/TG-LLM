@@ -1,0 +1,34 @@
+Timeline:
+(Molly Adams was born in Seattle) starts at 1896
+(Liam Thomas Dawson was born in Seattle) starts at 1896
+(Molly Adams was married to Liam Thomas Dawson) starts at 1920
+(Liam Thomas Dawson was married to Molly Adams) starts at 1920
+(Liam Thomas Dawson won prize James Parker Prize for Advanced Biomedical Studies) starts at 1946
+(Liam Thomas Dawson won prize Oakley Smith Prize) starts at 1948
+(Liam Thomas Dawson won prize Member of the National Academy) starts at 1950
+(Molly Adams was married to Liam Thomas Dawson) ends at 1957
+(Liam Thomas Dawson was married to Molly Adams) ends at 1957
+(Liam Thomas Dawson died in Kingsville, Texas) starts at 1984
+
+Question: How much time passed between the start of event (Liam Thomas Dawson was married to Molly Adams) and the start of event (Molly Adams was married to Liam Thomas Dawson)?
+
+Useful information:
+1896 before 1920 before 1946 before 1948 before 1950 before 1957
+1920 - 1896 = 24
+1950 - 1896 = 54
+1950 - 1920 = 30
+1957 - 1920 = 37
+24 < 30 < 37 < 54
+
+Answer: Let's think step by step.
+
+To solve this problem, we need to calculate the time that passed between the two events: (Liam Thomas Dawson was married to Molly Adams) and (Molly Adams was married to Liam Thomas Dawson). The approach is straightforward:
+
+Identify the years when each event started.
+(Liam Thomas Dawson was married to Molly Adams) starts at 1920
+(Molly Adams was married to Liam Thomas Dawson) starts at 1920
+
+Subtract the earlier year from the later year .
+1920 - 1920 = 0
+
+Thus, the answer is 0 year . 

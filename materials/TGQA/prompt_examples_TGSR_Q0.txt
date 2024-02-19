@@ -1,0 +1,24 @@
+Timeline:
+(Jason Harris was born in Atlanta) starts at 1897
+(Jason Harris won prize Member of the National Academy) starts at 1933
+(Jason Harris won prize Crimson Award) starts at 1940
+(Jason Harris won prize Astoria Award in Cosmology) starts at 1948
+(Jason Harris won prize Harrison Trophy) starts at 1956
+(Jason Harris died in Atlanta) starts at 1974
+
+Question: Which event started first, (Jason Harris was born in Atlanta) or (Jason Harris won prize Astoria Award in Cosmology)?
+
+Useful information:
+1897 before 1933 before 1940 before 1948 before 1956
+1940 - 1897 = 43
+43
+
+Answer: Let's think step by step.
+
+To solve this problem, we need to compare the start dates of the two events:
+
+(Jason Harris was born in Atlanta) starts at 1897
+(Jason Harris won prize Astoria Award in Cosmology) starts at 1948
+
+By comparing the start dates of these two events, it is clear that the event (Jason Harris was born in Atlanta) started first, as it began in 1897, which is before 1948, the start date for (Jason Harris won prize Astoria Award in Cosmology).
+Thus, the answer is (Jason Harris was born in Atlanta) . 

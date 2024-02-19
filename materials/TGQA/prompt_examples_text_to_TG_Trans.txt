@@ -1,0 +1,37 @@
+Example 1:
+Story: Once upon a time in the small town of Bristol, Connecticut, two extraordinary individuals were born in the same year of 1948 - Chris Evans and Oliver Jensen. Little did they know that their paths would intertwine in ways they would never have imagined.  As they grew older, Chris and Oliver led separate lives, each facing their own trials and triumphs. However, fate had plans for their union, and in 1970, their lives came crashing together when they crossed paths and instantly felt a deep connection. Their love blossomed, and they decided to embark on a journey together as a married couple.  Chris, a visionary entrepreneur, founded the Pearl Network, a telecommunications company, in 2005. With his innovative ideas and determination, he steered the company towards great success, making it a pioneer in its industry. At the same time, Chris was also recognized for his remarkable achievements and was honored with the prestigious Victory Achievement Award in 2007.  Despite their success professionally, their relationship faced its share of challenges. By 2010, Chris and Oliver made the difficult decision to end their marriage, realizing that their paths had diverged too far apart. Although their love for each other remained, they knew that it was time to move on and find happiness in different ways.  The Pearl Network thrived under Chris's leadership, but in 2013, he decided it was time for a new chapter in his life. He gracefully stepped down from his position, leaving behind a legacy of innovation and success that would be remembered by many.  As time went on, Chris and Oliver found solace and happiness in their separate lives. They both reflected on the beautiful memories they had shared together and the growth they had experienced during their time as a couple.  Their story serves as a reminder that sometimes, love cannot withstand the tests of time, but it doesn't diminish the impact they had on each other's lives. Chris and Oliver will forever be tied by their shared past, and as they continue to live separate lives, they remain eternally grateful for the love they once shared and the lessons they learned along the way.
+ 
+Timeline:
+(Chris Evans was born in Bristol, Connecticut) starts at 1948
+(Oliver Jensen was born in Bristol, Connecticut) starts at 1948
+(Chris Evans was married to Oliver Jensen) starts at 1970
+(Oliver Jensen was married to Chris Evans) starts at 1970
+(Chris Evans owned Pearl Network) starts at 2005
+(Chris Evans won prize Victory Achievement Award) starts at 2007
+(Chris Evans was married to Oliver Jensen) ends at 2010
+(Oliver Jensen was married to Chris Evans) ends at 2010
+(Chris Evans owned Pearl Network) ends at 2013
+
+
+Example 2:
+Story: Paul Anderson, a talented athlete, was born in Austin in 1983. From a young age, his passion for sports was evident. As he grew older, he became a notable figure in the world of football.  In 1993, at the age of ten, Paul joined the prestigious Northern Rovers F.C. His remarkable skills on the field quickly caught the attention of many. However, his time with the team was short-lived, as he left in 1995. Seeking new opportunities, Paul signed with the Blazing Tigers in Hartford.  For a brief period, Paul showcased his talent with the Blazing Tigers, captivating fans with his agility and technique. Nonetheless, in 2001, he decided to make a change and joined the Los Angeles Tigers football team. This move allowed Paul to experience the vibrant football scene and embrace the competitive spirit of Los Angeles.  But Paul's thirst for new challenges was far from satisfied. In the same year, he headed across the Atlantic and joined the London Sporting Club. His elegant style of play and scoring prowess made him a beloved member of the team. Unfortunately, his time in London came to an end in 2003.  During this period of transition, Paul discovered a hidden talent. In 2003, he briefly ventured into basketball, playing for the Denver national under-20 basketball team. Although it wasn't a long-term endeavor, this experience allowed him to explore his athletic versatility.  In search of a familiar environment, Paul returned to his football career and joined Brighton United C in 2003. His exceptional performance on the field continued to impress fans and coaches alike. However, in 2004, he decided to explore new horizons once again and joined the Ocean City Football Club.  Paul's time with Ocean City was brief, as he left in the same year. But he didn't remain idle for long. In 2005, he found himself playing for Oliverstown United. This team provided him with a fresh start and a chance to regain his footing in the football world. Paul's time with Oliverstown United lasted until 2007, during which he made a lasting impact on his teammates and supporters.  After a few years away from professional sports, Paul rekindled his passion for the game in 2011. He joined Greenfield United in Chicago, where he continued to make headlines with his exceptional skills. Having found his stride once more, Paul's time with Greenfield United lasted until 2013, solidifying his reputation as a remarkable athlete.  Throughout his journey, Paul Anderson's relentless pursuit of new experiences and challenges led him to leave an indelible mark on the world of sport. His unwavering dedication, natural talent, and versatility earned him a place among the greats, forever remembered as a figure who pushed the boundaries of what it meant to be an athlete.
+ 
+Timeline:
+(Paul Anderson was born in Austin) starts at 1983
+(Paul Anderson played for Northern Rovers F.C.) starts at 1993
+(Paul Anderson played for Blazing Tigers (Hartford)) starts at 1995
+(Paul Anderson played for Northern Rovers F.C.) ends at 1995
+(Paul Anderson played for Los Angeles Tigers football team) starts at 2001
+(Paul Anderson played for London Sporting Club) starts at 2001
+(Paul Anderson played for Blazing Tigers (Hartford)) ends at 2001
+(Paul Anderson played for Denver national under-20 basketball team) starts at 2003
+(Paul Anderson played for London Sporting Club) ends at 2003
+(Paul Anderson played for Brighton United C) starts at 2003
+(Paul Anderson played for Ocean City Football Club) starts at 2004
+(Paul Anderson played for Brighton United C) ends at 2004
+(Paul Anderson played for Denver national under-20 basketball team) ends at 2004
+(Paul Anderson played for Oliverstown United) starts at 2005
+(Paul Anderson played for Ocean City Football Club) ends at 2005
+(Paul Anderson played for Oliverstown United) ends at 2007
+(Paul Anderson played for Greenfield United (Chicago)) starts at 2011
+(Paul Anderson played for Greenfield United (Chicago)) ends at 2013

@@ -1,0 +1,39 @@
+Timeline:
+(Liam Mitchell was born in Harrison) starts at 1885
+(Maddox Reynolds was born in Glenville) starts at 1893
+(Liam Mitchell was married to Emma Scott) starts at 1916
+(Emma Scott was married to Liam Mitchell) starts at 1916
+(Liam Mitchell was married to Emma Scott) ends at 1918
+(Emma Scott was married to Liam Mitchell) ends at 1918
+(Maddox Reynolds was married to Liam Mitchell) starts at 1922
+(Liam Mitchell was married to Maddox Reynolds) starts at 1922
+(Maddox Reynolds was married to Liam Mitchell) ends at 1928
+(Liam Mitchell was married to Maddox Reynolds) ends at 1928
+(Liam Mitchell died in Boston) starts at 1941
+(Emma Scott died in Oceanview) starts at 1984
+
+Question: True or false: event (Liam Mitchell was married to Maddox Reynolds) was longer in duration than event (Emma Scott was married to Liam Mitchell)?
+
+Useful information:
+1885 before 1893 before 1916 before 1918 before 1922 before 1928 before 1941
+1918 - 1916 = 2
+1928 - 1893 = 35
+1928 - 1922 = 6
+1941 - 1918 = 23
+2 < 6 < 23 < 35
+
+Answer: Let's think step by step.
+
+To determine whether the statement is true or false, we need to compare the durations of (Liam Mitchell was married to Maddox Reynolds) and (Emma Scott was married to Liam Mitchell) . The duration for each event can be calculated as follows:
+
+(Liam Mitchell was married to Maddox Reynolds) :
+(Liam Mitchell was married to Maddox Reynolds) starts at 1922
+(Liam Mitchell was married to Maddox Reynolds) ends at 1928
+1928 - 1922 = 6
+
+(Emma Scott was married to Liam Mitchell) :
+(Emma Scott was married to Liam Mitchell) starts at 1916
+(Emma Scott was married to Liam Mitchell) ends at 1918
+1918 - 1916 = 2
+
+Now, we compare the duration of the two events: 6 is greater than 2 , thus, the answer is True . 

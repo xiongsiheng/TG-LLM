@@ -41,12 +41,13 @@ def read_data(dataset_name, filename):
     # Convert list of dictionaries to the desired format
     data_dict = {'story': [item["story"] for item in data],
                  'TG': [item["TG"] for item in data],
-                 'Q': [item["question"] for item in data], 
-                 'A': [item["answer"] for item in data],
+                 'question': [item["question"] for item in data], 
+                 'answer': [item["answer"] for item in data],
                  'EK': [item["EK"] if "EK" in item else None for item in data],
                  'CoT': [item["CoT"] if "CoT" in item else None for item in data],
-                 'C': [item["candidates"] if "candidates" in item else None for item in data],
-                 'id': [item['id'] for item in data]}
+                 'candidates': [item["candidates"] if "candidates" in item else None for item in data],
+                 'id': [item['id'] for item in data],
+                 'Q-Type': [item['Q-Type'] if 'Q-Type' in item else None for item in data]}
 
     # Convert your data into a dataset
     dataset = Dataset.from_dict(data_dict)
@@ -60,11 +61,11 @@ dataset_selection = 0
 dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
 
 
-filename = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
-data_train = read_data(dataset_name, filename)
+filename_train = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
+data_train = read_data(dataset_name, filename_train)
 
-filename = ['TGSR_val.json', 'TGSR_easy_val.json', 'TGSR_hard_val.json', 'TGSR_l2_val.json', 'TGSR_l3_val.json'][dataset_selection]
-data_val = read_data(dataset_name, filename)
+filename_val = ['TGSR_val.json', 'TGSR_easy_val.json', 'TGSR_hard_val.json', 'TGSR_l2_val.json', 'TGSR_l3_val.json'][dataset_selection]
+data_val = read_data(dataset_name, filename_val)
 
 
 
@@ -94,7 +95,7 @@ def my_generate_prompt(TG, EK, Q):
 
 for i in range(5):
     sample = data_train[i]
-    prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'])
+    prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['question'])
     print(prompt)
     print('===============================')
 
@@ -132,7 +133,7 @@ def one_batch(input_prompts, samples):
         for CoT in cur_sample['CoT']:
             cur_prompt = input_prompts[j] + process_CoT(CoT)
             Probs_neg = []
-            for cand in cur_sample['C']:
+            for cand in cur_sample['candidates']:
                 input_tokens = tokenizer(cur_prompt + cand, return_tensors="pt")["input_ids"].to("cuda")
                 target_ids = input_tokens.clone()
                 target_ids[:, :context_len] = -100
@@ -140,21 +141,23 @@ def one_batch(input_prompts, samples):
                     outputs = model(input_tokens, labels=target_ids)
                     loss = outputs.loss.cpu().numpy()
                     Probs_neg.append(loss)
+            # print(Probs_neg)
             Probs_neg = np.mean(Probs_neg)
 
 
-            input_tokens = tokenizer(cur_prompt + cur_sample['A'], return_tensors="pt")["input_ids"].to("cuda")
+            input_tokens = tokenizer(cur_prompt + cur_sample['answer'], return_tensors="pt")["input_ids"].to("cuda")
             target_ids = input_tokens.clone()
             target_ids[:, :context_len] = -100
             with torch.no_grad():
                 outputs = model(input_tokens, labels=target_ids)
                 loss = outputs.loss.cpu().numpy()
                 Probs_pos = copy.copy(loss)
+                # print(Probs_pos)
 
             scores.append(Probs_pos + gamma*(Probs_pos - Probs_neg))
 
-        scores = [np.exp(s) for s in scores]
-        cur_sample['CoT_sample_prob'] = scores/np.sum(scores)
+        scores = [np.exp(-10*s) for s in scores]
+        cur_sample['CoT_sample_prob'] = (scores/np.sum(scores)).tolist()
 
 
     return samples
@@ -173,7 +176,7 @@ def CoT_bootstrap(data, filename):
 
     for i in range(len(data)):
         sample = data[i]
-        cur_prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['Q'])
+        cur_prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['question'])
         input_prompts.append(cur_prompt)
         input_samples.append(sample)
 
@@ -182,9 +185,6 @@ def CoT_bootstrap(data, filename):
             data_new += samples
             input_prompts = []
             input_samples = []
-            # for sample in samples:
-            #     print(sample)
-            #     print('------------------')
 
 
     if len(input_prompts) > 0:
@@ -194,8 +194,8 @@ def CoT_bootstrap(data, filename):
 
     file_path = f'{folder_path}/{filename}'
     with open(file_path, 'w') as json_file:
-        json.dump(data, json_file)
+        json.dump(data_new, json_file)
 
 
-CoT_bootstrap(data_train, 'TGSR_bs_train.json')
-CoT_bootstrap(data_val, 'TGSR_bs_val.json')
+CoT_bootstrap(data_train, filename_train)
+CoT_bootstrap(data_val, filename_val)

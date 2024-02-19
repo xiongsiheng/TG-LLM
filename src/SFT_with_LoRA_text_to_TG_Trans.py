@@ -22,12 +22,9 @@ from trl import SFTTrainer
 from peft import PeftModel
 from datasets import Dataset
 
-
-
-
-
-
 os.environ["WANDB_DISABLED"] = "true"
+
+
 
 
 
@@ -58,10 +55,11 @@ def add_brackets(ls):
 
 
 
-dataset_selection = 2
+dataset_selection = 0
 f_train = 1
 f_test = 1
-
+f_ICL = 1  # whether use in-context learning during test
+f_rewrite = 1 # whether rewrite existing test results
 
 
 dataset_name = ['TGQA', 'TimeQA', 'TempReason'][dataset_selection]
@@ -84,7 +82,7 @@ print(data_test)
 
 
 
-def my_generate_prompt(story, TG, entities, relation, times, eos_token="</s>"):
+def my_generate_prompt(story, TG, entities, relation, times, mode=None, eos_token="</s>"):
     if isinstance(story, list):
         story = '\n'.join(story)
     if isinstance(times, list):
@@ -92,15 +90,26 @@ def my_generate_prompt(story, TG, entities, relation, times, eos_token="</s>"):
     if isinstance(entities, list):
         entities = ' , '.join(add_brackets(entities))
 
+    if f_ICL and mode == 'test':
+        file_path = f'../materials/{dataset_name}/prompt_examples_text_to_TG_Trans.txt'
+        with open(file_path) as txt_file:
+            prompt_examples = txt_file.read()
+
     if entities is None or relation is None or times is None:
-        prompt = f"Extract the timeline based on the story.\n\n{story}\n\nTimeline:\n"
+        if f_ICL and mode == 'test':
+            prompt = f"Extract the timeline based on the story.\n\n{prompt_examples}\n\nTest:\n\n{story}\n\nTimeline:"
+        else:
+            prompt = f"Extract the timeline based on the story.\n\n{story}\n\nTimeline:"
     else:
-        prompt = f"{story}\n\nGiven the time periods: {times}, summary {relation} as a timeline. Choose from {entities}.\n\nTimeline:\n"
+        if f_ICL and mode == 'test':
+            prompt = f"{prompt_examples}\n\nTest:\n\n{story}\n\nGiven the time periods: {times}, summary {relation} as a timeline. Choose from {entities}.\n\nTimeline:"
+        else:
+            prompt = f"{story}\n\nGiven the time periods: {times}, summary {relation} as a timeline. Choose from {entities}.\n\nTimeline:"
 
     if TG is not None:
         if isinstance(TG, list):
             TG = '\n'.join(TG)
-        prompt += f"{TG}\n"
+        prompt += f"\n{TG}\n"
 
     prompt += eos_token
     return prompt
@@ -111,12 +120,10 @@ def my_generate_prompt(story, TG, entities, relation, times, eos_token="</s>"):
 for i in range(5):
     if f_train:
         sample = data_train[i]
-        eos_token = "</s>"
-        prompt = my_generate_prompt(sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], eos_token=eos_token)
+        prompt = my_generate_prompt(sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], mode='train', eos_token="</s>")
     if f_test:
         sample = data_test[i]
-        eos_token = ""
-        prompt = my_generate_prompt(sample['story'], None, sample['entities'], sample['relation'], sample['times'], eos_token=eos_token)
+        prompt = my_generate_prompt(sample['story'], None, sample['entities'], sample['relation'], sample['times'], mode='test', eos_token="")
     print(prompt)
     print('===============================')
 
@@ -167,7 +174,7 @@ if f_train:
     logging_steps = 10
     learning_rate = 5e-4
     max_grad_norm = 0.3
-    max_steps = 30
+    max_steps = 5
     warmup_ratio = 0.03
     evaluation_strategy="steps"
     lr_scheduler_type = "constant"
@@ -195,7 +202,7 @@ if f_train:
     def formatting_func(sample):
         output = []
         for s, g, e, r, t in zip(sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times']):
-            op = my_generate_prompt(s, g, e, r, t)
+            op = my_generate_prompt(s, g, e, r, t, mode='train')
             output.append(op)
 
         return output
@@ -269,11 +276,11 @@ if f_test:
     samples = []
     for i in range(len(data_test)):
         file_path = folder_path + f'/{str(i)}.json'
-        if os.path.exists(file_path):
+        if (os.path.exists(file_path)) and (not f_rewrite):
             continue
 
         sample = data_test[i]
-        cur_prompt = my_generate_prompt(sample['story'], None, sample['entities'], sample['relation'], sample['times'], eos_token='')
+        cur_prompt = my_generate_prompt(sample['story'], None, sample['entities'], sample['relation'], sample['times'], mode='test', eos_token='')
 
 
         input_prompts.append(cur_prompt)
