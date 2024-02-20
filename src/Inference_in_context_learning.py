@@ -15,7 +15,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 from datasets import Dataset
 import openai
-
+import time
 
 
 os.environ["WANDB_DISABLED"] = "true"
@@ -142,7 +142,7 @@ if 'Llama' in model_name:
 
 
 
-def one_batch(tokenizer, input_prompts, samples, file_paths, max_new_tokens=512):
+def one_batch(input_prompts, samples, file_paths, max_new_tokens=512):
     if 'Llama' in model_name:
         input_tokens = tokenizer(input_prompts, padding='longest', return_tensors="pt")["input_ids"].to("cuda")
 
@@ -212,11 +212,11 @@ for i in range(len(data_test)):
     file_paths.append(file_path)
 
     if len(input_prompts) >= 8:
-        one_batch(tokenizer, input_prompts, samples, file_paths)
+        one_batch(input_prompts, samples, file_paths)
         input_prompts = []
         file_paths = []
         samples = []
 
 
 if len(input_prompts) > 0:
-    one_batch(tokenizer, input_prompts, samples, file_paths)
+    one_batch(input_prompts, samples, file_paths)
