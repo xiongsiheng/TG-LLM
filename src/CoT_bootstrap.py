@@ -34,7 +34,7 @@ os.environ["WANDB_DISABLED"] = "true"
 
 
 def read_data(dataset_name, filename):
-    file_path = f'../dataset/{dataset_name}/{filename}'
+    file_path = f'../dataset/{dataset_name.split('_')[0]}/{filename}'
     with open(file_path) as json_file:
         data = json.load(json_file)
 
@@ -58,7 +58,7 @@ def read_data(dataset_name, filename):
 
 
 dataset_selection = 0
-dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
+dataset_name = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'][dataset_selection]
 
 
 filename_train = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]

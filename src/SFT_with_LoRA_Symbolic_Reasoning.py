@@ -33,13 +33,13 @@ os.environ["WANDB_DISABLED"] = "true"
 dataset_selection = 0
 f_train = 1
 f_test = 1
-f_CoT_bs = 1
-f_data_aug = 1
+f_CoT_bs = 1 # whether use CoT bootstrapping
+f_data_aug = 1 # whether use data augmentation
 f_ICL = 1  # whether use in-context learning during test
 f_rewrite = 1 # whether rewrite existing test results
 
 
-dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
+dataset_name = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'][dataset_selection]
 
 
 
@@ -91,7 +91,7 @@ def rm_irr_edges(TG, CoT, Q):
 
 
 def change_rels(TG):
-    with open(f'../materials/{dataset_name}/rel_synonyms.txt', 'r') as file:
+    with open(f'../materials/{dataset_name.split('_')[0]}/rel_synonyms.txt', 'r') as file:
         contents = file.readlines()
 
     rel_synonyms = {}
@@ -148,7 +148,7 @@ def change_times(TG, prompts):
 
 
 def collect_entity():
-    with open(f'../materials/{dataset_name}/rel_dict.txt', 'r') as file:
+    with open(f'../materials/{dataset_name.split('_')[0]}/rel_dict.txt', 'r') as file:
         contents = file.readlines()
 
     rel_entity_dict = {}
@@ -202,7 +202,7 @@ def collect_entity():
 
 
 def collect_entity_v2(existing_names=None):
-    path = f'../materials/{dataset_name}/random_names'
+    path = f'../materials/{dataset_name.split('_')[0]}/random_names'
     with open(f'{path}/sub_total.txt') as file:
         context = file.readlines()
 
@@ -293,7 +293,7 @@ def read_data(dataset_name, filename, f_CoT_bs=0, f_data_aug=0):
     if f_CoT_bs:
         file_path = f'../results/{dataset_name}_SR_bs/{filename}'
     else:
-        file_path = f'../dataset/{dataset_name}/{filename}'
+        file_path = f'../dataset/{dataset_name.split('_')[0]}/{filename}'
 
     with open(file_path) as json_file:
         data = json.load(json_file)
@@ -375,7 +375,7 @@ print(data_test)
 
 if f_test:
     TG_pred = {}
-    path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
+    path_TG_pred = f'../results/{dataset_name.split('_')[0]}_story_TG_trans/'
     for filename in os.listdir(path_TG_pred):
         file_path = os.path.join(path_TG_pred, filename)
         with open(file_path) as json_file:
@@ -390,9 +390,9 @@ if f_test:
 
 def process_id(sample_id):
     story_id = sample_id
-    if dataset_name == 'TimeQA':
+    if dataset_name.split('_')[0] == 'TimeQA':
         story_id = story_id[:-2]
-    if dataset_name == 'TimeQA':
+    if dataset_name.split('_')[0] == 'TimeQA':
         story_id = story_id[2:-2]
     return story_id
 
@@ -404,7 +404,7 @@ def my_generate_prompt(TG, EK, Q, CoT, A, Q_type=None, mode=None, eos_token="</s
     if f_ICL and mode == 'test':
         if dataset_name == 'TGQA':
             Q_type = f'Q{Q_type}'
-        file_path = f'../materials/{dataset_name}/prompt_examples_TGSR_{Q_type}.txt'
+        file_path = f'../materials/{dataset_name.split('_')[0]}/prompt_examples_TGSR_{Q_type}.txt'
         with open(file_path) as txt_file:
             prompt_examples = txt_file.read()
 
