@@ -42,6 +42,11 @@ cd src
 python Inference_in_context_learning.py
 ```
 
+For evaluation
+```sh
+cd src
+python Evaluation.py
+```
 
 
 ## Datasets
