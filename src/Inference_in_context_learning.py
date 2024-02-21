@@ -30,6 +30,7 @@ model_selection = 2
 f_using_CoT = 0 # whether use CoT
 f_ICL = 1  # whether use in-context learning during test
 f_rewrite = 1 # whether rewrite existing test results
+f_shorten_story = 1 # whether shorten the story
 
 
 dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
@@ -94,6 +95,9 @@ def my_generate_prompt(story, Q, C, Q_type=None):
             prompt_examples = txt_file.read()
 
     story = story.replace('\n', ' ')
+
+    if f_shorten_story:
+        story = ' '.join(story.split(' ')[:2000])
 
     if '(' not in C[0] and ')' not in C[0]:
         C = ['( ' + cand + ' )' for cand in C]

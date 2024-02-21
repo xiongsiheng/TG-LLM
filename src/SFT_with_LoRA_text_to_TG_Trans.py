@@ -60,6 +60,7 @@ f_train = 1
 f_test = 1
 f_ICL = 1  # whether use in-context learning during test
 f_rewrite = 1 # whether rewrite existing test results
+f_shorten_story = 1 # whether shorten the story
 
 
 dataset_name = ['TGQA', 'TimeQA', 'TempReason'][dataset_selection]
@@ -89,6 +90,9 @@ def my_generate_prompt(story, TG, entities, relation, times, mode=None, eos_toke
         times = ' , '.join(add_brackets(times))
     if isinstance(entities, list):
         entities = ' , '.join(add_brackets(entities))
+
+    if f_shorten_story:
+        story = ' '.join(story.split(' ')[:2000])
 
     if f_ICL and mode == 'test':
         file_path = f'../materials/{dataset_name}/prompt_examples_text_to_TG_Trans.txt'
@@ -174,7 +178,7 @@ if f_train:
     logging_steps = 10
     learning_rate = 5e-4
     max_grad_norm = 0.3
-    max_steps = 5
+    max_steps = 50
     warmup_ratio = 0.03
     evaluation_strategy="steps"
     lr_scheduler_type = "constant"

@@ -495,7 +495,7 @@ if f_train:
     logging_steps = 10
     learning_rate = 5e-4
     max_grad_norm = 0.3
-    max_steps = 5
+    max_steps = 50
     warmup_ratio = 0.03
     evaluation_strategy="steps"
     lr_scheduler_type = "constant"
