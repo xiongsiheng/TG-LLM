@@ -9,7 +9,11 @@ Our Framework:
 </p>
 
 # How to run
+
+We use [Hugging Face](https://huggingface.co/) platform to load the Llama2 model family. Make sure you have an account ([Guidance](https://huggingface.co/blog/llama2)).
+
 ```sh
+cd src
 python SFT_with_LoRA_text_to_TG_Trans.py
 python CoT_bootstrap.py
 python SFT_with_LoRA_Symbolic_Reasoning.py
