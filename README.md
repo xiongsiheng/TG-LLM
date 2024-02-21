@@ -19,9 +19,9 @@ python CoT_bootstrap.py
 python SFT_with_LoRA_Symbolic_Reasoning.py
 ```
 
-## Dataset
+## Datasets
 
-All the datasets can be found [here](https://drive.google.com/file/d/1_y1bYXVAmi6-tCJcAcOl8DlR0_4ey5_k/view?usp=drive_link).
+All the datasets can be found [here](https://huggingface.co/datasets/sxiong/TGQA).
 
 ## Citation
 ```
