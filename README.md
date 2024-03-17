@@ -51,7 +51,7 @@ python Evaluation.py
 
 ## Datasets
 
-All the datasets can be found [here](https://huggingface.co/datasets/sxiong/TGQA).
+All the datasets (TGQA, TimeQA, TempReason) can be found [here](https://huggingface.co/datasets/sxiong/TGQA).
 
 ## Citation
 ```
