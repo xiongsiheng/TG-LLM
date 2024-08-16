@@ -110,7 +110,7 @@ python Evaluation.py --dataset TGQA --model Llama2-13b --SFT
 # To evaluate other leading LLMs with ICL only
 python Evaluation.py --dataset TGQA --model Llama2-13b --ICL_only --CoT
 
-# To evaluate other leading LLMs with general SFT
+# To evaluate other leading LLMs with SFT on vanilla CoT
 python Evaluation.py --dataset TGQA --model Llama2-13b --SFT --no_TG
 ```
 
