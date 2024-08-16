@@ -20,7 +20,7 @@ parser.add_argument('--dataset', type=str)
 parser.add_argument('--model', type=str)
 parser.add_argument('--CoT', action='store_true')
 parser.add_argument('--ICL', action='store_true')
-parser.add_argument('--rewrite', action='store_true')
+parser.add_argument('--overwrite', action='store_true')
 parser.add_argument('--shorten_story', action='store_true')
 parser.add_argument('--print_prompt', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
@@ -36,7 +36,7 @@ dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'Tem
 model_selection = ['Llama2-7b', 'Llama2-13b', 'Llama2-70b'].index(args.model)
 f_using_CoT = args.CoT  # whether use CoT
 f_ICL = args.ICL   # whether use in-context learning during test
-f_rewrite = args.rewrite   # whether rewrite existing test results
+f_overwrite = args.overwrite   # whether overwrite existing test results
 f_shorten_story = args.shorten_story   # whether shorten the story (For TimeQA and TempReason, it is possible that the story is too long to feed into the model)
 f_print_example_prompt = args.print_prompt  # whether to print the example prompt for the model
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
@@ -109,7 +109,7 @@ file_paths = []
 samples = []
 for i in tqdm(range(len(data_test))):
     file_path = f'{folder_path}/{str(i)}.json'
-    if os.path.exists(file_path) and (not f_rewrite):
+    if os.path.exists(file_path) and (not f_overwrite):
         continue
 
     sample = data_test[i]

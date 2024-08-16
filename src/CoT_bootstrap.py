@@ -1,5 +1,4 @@
 import sys
-import json
 import os
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
@@ -18,6 +17,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--dataset', type=str)
 parser.add_argument('--print_prompt', action='store_true')
+parser.add_argument('--overwrite', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
 
 
@@ -31,6 +31,7 @@ args = parser.parse_args()
 
 dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'].index(args.dataset)
 f_print_example_prompt = args.print_prompt   # whether to print the example prompt for the model
+f_overwrite = args.overwrite   # whether overwrite existing results
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
 
 ###########################
@@ -99,31 +100,27 @@ def CoT_bootstrap(data, filename, model, tokenizer):
         os.mkdir(folder_path)
 
     batch_size = 4
-
-    data_new = []
+    file_path = f'{folder_path}/{filename}'
     input_prompts = []
     input_samples = []
-
     for sample in tqdm(data):
+        cur_id = sample['id']
+        cur_file_path = f'{file_path}_{cur_id}.json'
+        if os.path.exists(cur_file_path) and (not f_overwrite):
+            continue
+
         cur_prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'])
         input_prompts.append(cur_prompt)
         input_samples.append(sample)
 
         if len(input_prompts) >= batch_size:
-            samples = run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples)
-            data_new += samples
+            run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path)
             input_prompts = []
             input_samples = []
 
     # Last batch that is less than batch_size
     if len(input_prompts) > 0:
-        samples = run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples)
-        data_new += samples
-
-
-    file_path = f'{folder_path}/{filename}.json'
-    with open(file_path, 'w') as json_file:
-        json.dump(data_new, json_file)
+        run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path)
 
     return
 

@@ -104,7 +104,7 @@ def run_one_batch_ICL(model_name, model, tokenizer, input_prompts, samples, file
     return
 
 
-def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples):
+def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples, file_path):
     '''
     For each sample, calculate the contrastive score for each CoT. Then save the results to the corresponding files.
     
@@ -113,6 +113,7 @@ def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples):
     tokenizer: the tokenizer
     input_prompts: the input prompts, list
     samples: the samples, dict
+    file_path: the file path to save the results, str
 
     Returns:
     samples: the samples with the CoT sample probability, dict
@@ -152,8 +153,12 @@ def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples):
 
         # Normalize the scores to get the probability
         cur_sample['CoT_sample_prob'] = (scores/np.sum(scores)).tolist()
+        cur_id = cur_sample['id']
+        cur_file_path = f'{file_path}_{cur_id}.json'
+        with open(cur_file_path, 'w') as json_file:
+            json.dump(cur_sample, json_file)
 
-    return samples
+    return 
 
 
 

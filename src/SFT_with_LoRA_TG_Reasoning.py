@@ -2,7 +2,6 @@ import sys
 import json
 import random
 import os
-import copy
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
@@ -26,14 +25,15 @@ parser.add_argument('--test', action='store_true')
 parser.add_argument('--CoT_bs', action='store_true')
 parser.add_argument('--data_aug', action='store_true')
 parser.add_argument('--ICL', action='store_true')
-parser.add_argument('--rewrite', action='store_true')
+parser.add_argument('--overwrite', action='store_true')
 parser.add_argument('--print_prompt', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
 parser.add_argument('--transferred', action='store_true')
 parser.add_argument('--no_TG', action='store_true')
+parser.add_argument('--resume_from', type=str)
+
 
 args = parser.parse_args()
-
 
 
 ######### Config #########
@@ -44,11 +44,12 @@ f_test = args.test   # whether test the model
 f_CoT_bs = args.CoT_bs   # whether use CoT bootstrapping
 f_data_aug = args.data_aug   # whether use data augmentation
 f_ICL = args.ICL   # whether use in-context learning during test
-f_rewrite = args.rewrite   # whether rewrite existing test results
+f_overwrite = args.overwrite   # whether overwrite existing test results
 f_print_example_prompt = args.print_prompt   # whether to print the example prompt for the model
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
 f_transferred = args.transferred  # whether to use the TG results from transfer learning
 f_no_TG = args.no_TG  # whether to use the temporal graph or original story as context
+resume_from_checkpoint = args.resume_from  # set this to the checkpoint path if you want to resume training from a checkpoint otherwise leave it as None
 
 ###########################
 
@@ -75,13 +76,17 @@ def read_data(dataset_name, prefix, split, f_CoT_bs=False, f_data_aug=False):
     return:
         dataset: Dataset, the dataset
     '''
-    file_path = f'../results/{dataset_name}_TGR_CoT_bs/{prefix + split}.json'
+    file_path = f'../results/{dataset_name}_TGR_CoT_bs'
     if (not f_CoT_bs) or (not os.path.exists(file_path)):
         dataset = load_dataset("sxiong/TGQA", f'{dataset_name}_TGR')
         dataset = dataset[prefix + split]
     else:
-        with open(file_path) as json_file:
-            data = json.load(json_file)
+        data = []
+        for filename in os.listdir(f'{file_path}'):
+            if not filename.startswith(f'{prefix + split}'):
+                continue
+            with open(f'{file_path}/{filename}') as json_file:
+                data.append(json.load(json_file))
 
         # Convert list of dictionaries to the desired format
         data_dict = {'story': [item["story"] for item in data],
@@ -154,9 +159,11 @@ if f_unit_test:
     data_test = create_subset(data_test, 100)
 
 
+
 print(data_train)
 print(data_val)
 print(data_test)
+
 
 
 
@@ -214,7 +221,6 @@ if f_train:
         return output
 
     output_dir = f"../model_weights/{dataset_name}_{strategy}{split_name}"
-    resume_from_checkpoint = None  # you can set this to the checkpoint path if you want to resume training from a checkpoint
     max_steps = 50 if dataset_name == 'TGQA' else 20
     max_steps = 5 if f_unit_test else max_steps
     SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 12, 2048, max_steps, resume_from_checkpoint=resume_from_checkpoint)
@@ -236,7 +242,7 @@ if f_test:
     input_prompts, file_paths, samples = [], [], []
     for i in tqdm(range(len(data_test))):
         file_path = folder_path + f'/{str(i)}.json'
-        if os.path.exists(file_path) and (not f_rewrite):
+        if os.path.exists(file_path) and (not f_overwrite):
             continue
 
         sample = data_test[i]

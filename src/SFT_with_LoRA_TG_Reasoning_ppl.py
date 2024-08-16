@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--dataset', type=str)
 parser.add_argument('--ICL', action='store_true')
-parser.add_argument('--rewrite', action='store_true')
+parser.add_argument('--overwrite', action='store_true')
 parser.add_argument('--print_prompt', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
 parser.add_argument('--transferred', action='store_true')
@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'].index(args.dataset)
 f_ICL = args.ICL   # whether use in-context learning during test
-f_rewrite = args.rewrite   # whether rewrite existing test results
+f_overwrite = args.overwrite   # whether overwrite existing test results
 f_print_example_prompt = args.print_prompt   # whether to print the example prompt for the model
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
 f_transferred = args.transferred  # whether to use the TG results from transfer learning
@@ -116,7 +116,7 @@ batch_size = 4
 input_prompts, file_paths, samples = [], [], []
 for i in tqdm(range(len(data_test))):
     file_path = folder_path + f'/{str(i)}.json'
-    if os.path.exists(file_path) and (not f_rewrite):
+    if os.path.exists(file_path) and (not f_overwrite):
         continue
 
     sample = data_test[i]

@@ -119,7 +119,7 @@ def my_generate_prompt_ICL(dataset_name, split_name, learning_setting, story, Q,
 
 
 def my_generate_prompt_TG_trans(dataset_name, story, TG, entities, relation, times, f_ICL, f_shorten_story, f_hard_mode, 
-                                transferred_dataset_name, mode=None, eos_token="</s>"):
+                                transferred_dataset_name, mode=None, eos_token="</s>", max_story_len=1500):
     '''
     Generate the prompt for text to TG translation (given context and keywords, generate the relevant TG)
 
@@ -129,8 +129,13 @@ def my_generate_prompt_TG_trans(dataset_name, story, TG, entities, relation, tim
     - entities: str or list, the entities
     - relation: str, the relation
     - times: str or list, the times
+    - f_ICL: bool, whether to use ICL
+    - f_shorten_story: bool, whether to shorten the story
+    - f_hard_mode: bool, whether to use hard mode
+    - transferred_dataset_name: str, the name of the transferred dataset
     - mode: train or test
     - eos_token: str, the end of sentence token
+    - max_story_len: int, the maximum length of the story (only valid when f_shorten_story is True)
 
     Returns:
     - prompt: str, the prompt
@@ -151,8 +156,8 @@ def my_generate_prompt_TG_trans(dataset_name, story, TG, entities, relation, tim
     times = ' , '.join(add_brackets(times)) if times is not None else None
 
     if f_shorten_story:
-        story = shorten_story(story)
-
+        story = shorten_story(story, max_story_len)
+ 
     if relation is None:
         # If we do not have such information extracted from the questions, we will translate the whole story.
         prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Summary all the events as a timeline. Only return me json."\n}}\n ### Output: \n```json')

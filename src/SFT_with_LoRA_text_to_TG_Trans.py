@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str)
 parser.add_argument('--train', action='store_true')
 parser.add_argument('--test', action='store_true')
-parser.add_argument('--rewrite', action='store_true')
+parser.add_argument('--overwrite', action='store_true')
 parser.add_argument('--ICL', action='store_true')
 parser.add_argument('--shorten_story', action='store_true')
 parser.add_argument('--hard_mode', action='store_true')
@@ -30,6 +30,7 @@ parser.add_argument('--print_prompt', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
 parser.add_argument('--transferred_dataset', type=str)
 parser.add_argument('--transferred', action='store_true')
+parser.add_argument('--resume_from', type=str)
 
 args = parser.parse_args()
 
@@ -40,7 +41,7 @@ args = parser.parse_args()
 dataset_name = args.dataset   # 'TGQA', 'TimeQA', 'TempReason'
 f_train = args.train   # whether train the model
 f_test = args.test  # whether test the model
-f_rewrite = args.rewrite  # whether rewrite existing test results
+f_overwrite = args.overwrite  # whether overwrite existing test results
 f_ICL = args.ICL  # whether use in-context learning during test
 f_shorten_story = args.shorten_story   # whether shorten the story (For TimeQA and TempReason, it is possible that the story is too long to feed into the model)
 f_hard_mode = args.hard_mode   # whether use hard mode (only know relations) v.s. easy mode (know entities, relations and times) for translation
@@ -52,7 +53,11 @@ f_unit_test = args.unit_test   # whether to run the unit test (only for debuggin
 transferred_dataset_name = args.transferred_dataset
 f_transferred = args.transferred  # whether to use transfer learning model during test (if True, we will read the model weights learned from the transferred dataset)
 
+resume_from_checkpoint = args.resume_from  # set this to the checkpoint path if you want to resume training from a checkpoint otherwise leave it as None
 ###########################
+
+
+
 
 
 dataset = load_dataset("sxiong/TGQA", f'{dataset_name}_Story_TG_Trans')
@@ -64,9 +69,10 @@ data_test = dataset['test']
 
 
 
+
 def add_prompt(sample):
     sample['prompt'] = my_generate_prompt_TG_trans(dataset_name, sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], 
-                                                   f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name)
+                                                   f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, max_story_len=1500)
     return sample
 
 data_train = data_train.map(add_prompt)
@@ -100,6 +106,7 @@ if f_print_example_prompt:
 
 
 
+
 model_name = "meta-llama/Llama-2-13b-hf"  # can be changed to other models
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
@@ -127,7 +134,6 @@ if f_train:
     if transferred_dataset_name is not None:
         output_dir = f"../model_weights/{dataset_name}_to_{transferred_dataset_name}_story_TG_trans"
 
-    resume_from_checkpoint = None  # you can set this to the checkpoint path if you want to resume training from a checkpoint
     max_steps = 5 if f_unit_test else 50
     response_template = "### Output"
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)  # By using this collator, we finetune the model on the output part only.
@@ -158,7 +164,7 @@ if f_test:
     input_prompts, file_paths, samples = [], [], []
     for i in tqdm(range(len(data_test))):
         file_path = folder_path + f'/{str(i)}.json'
-        if (os.path.exists(file_path)) and (not f_rewrite):
+        if (os.path.exists(file_path)) and (not f_overwrite):
             continue
 
         sample = data_test[i]
