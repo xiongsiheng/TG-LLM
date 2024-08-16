@@ -90,7 +90,7 @@ python Inference_in_context_learning.py --dataset TGQA --model Llama2-13b --CoT 
 python Inference_in_context_learning_ppl.py --dataset TGQA --model Llama2-13b --CoT --ICL --print_prompt
 ```
 
-- Use general SFT (with story, question, CoT, answer)
+- Use SFT with vanilla CoT (with story, question, CoT, answer)
 ```sh
 # Train and test on TGQA dataset
 python SFT_with_LoRA_TG_Reasoning.py --dataset TGQA --train --print_prompt --no_TG
