@@ -418,23 +418,21 @@ def replace_empty_answer_as_unknown(ans):
     return [a if len(a)>0 else 'Unknown' for a in ans]
 
 
-def obtain_TG_pred(dataset_name, f_transferred):
+def obtain_TG_pred(path):
     '''
     Obtain the estimated temporal graph for the test set.
 
     args:
-        dataset_name: string, dataset name
-        f_transferred: bool, whether read the results from transfer learning
+        path: string, the path to the estimated temporal graph
 
     return:
         TG_pred: dict, the estimated temporal graph
     '''
     TG_pred = {}
-    path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
-    if f_transferred:
-        path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
-    for filename in os.listdir(path_TG_pred):
-        file_path = os.path.join(path_TG_pred, filename)
+    for filename in os.listdir(path):
+        if not filename.endswith('.json'):
+            continue
+        file_path = os.path.join(path, filename)
         with open(file_path) as json_file:
             data = json.load(json_file)
         parsed_res = parse_TG_pred(data['prediction'])

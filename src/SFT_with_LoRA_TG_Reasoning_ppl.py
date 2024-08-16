@@ -49,6 +49,7 @@ prefix = ['', 'easy_', 'hard_', 'l2_', 'l3_'][dataset_selection]
 
 
 
+
 dataset = load_dataset("sxiong/TGQA", f'{dataset_name}_TGR')
 data_test = dataset[f'{prefix}test']
 
@@ -61,8 +62,11 @@ if f_unit_test:
 print(data_test)
 
 
+path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
+if f_transferred:
+    path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
 # use estimated temporal graph for test
-TG_pred = obtain_TG_pred(dataset_name, f_transferred)
+TG_pred = obtain_TG_pred(path_TG_pred)
 
 
 if f_print_example_prompt:

@@ -83,7 +83,7 @@ model.eval()  # Set the model to evaluation mode
 
 
 
-def CoT_bootstrap(data, filename, model, tokenizer):
+def CoT_bootstrap(data, filename, model, tokenizer, batch_size=4):
     '''
     Given a list of CoT for each sample that leads to the correct final answer, calculate the probability of each CoT for each sample.
     Todo: Here we start from the data with filtered CoTs. We can also start from the data with no CoTs, and we need to generate and filter the CoTs in this function.
@@ -99,7 +99,6 @@ def CoT_bootstrap(data, filename, model, tokenizer):
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
 
-    batch_size = 4
     file_path = f'{folder_path}/{filename}'
     input_prompts = []
     input_samples = []
@@ -126,3 +125,4 @@ def CoT_bootstrap(data, filename, model, tokenizer):
 
 
 CoT_bootstrap(data_train, split_train, model, tokenizer)
+CoT_bootstrap(data_val, split_val, model, tokenizer)

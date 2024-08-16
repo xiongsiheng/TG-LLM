@@ -11,6 +11,8 @@ from tqdm import tqdm
 from Models import *
 from prompt_generation import *
 import argparse
+from trl import DataCollatorForCompletionOnlyLM
+
 
 os.environ["WANDB_DISABLED"] = "true"
 
@@ -168,8 +170,11 @@ print(data_test)
 
 
 if f_test:
+    path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
+    if f_transferred:
+        path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
     # use estimated temporal graph for test
-    TG_pred = obtain_TG_pred(dataset_name, f_transferred)
+    TG_pred = obtain_TG_pred(path_TG_pred)
 
 
 
@@ -223,7 +228,9 @@ if f_train:
     output_dir = f"../model_weights/{dataset_name}_{strategy}{split_name}"
     max_steps = 50 if dataset_name == 'TGQA' else 20
     max_steps = 5 if f_unit_test else max_steps
-    SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 12, 2048, max_steps, resume_from_checkpoint=resume_from_checkpoint)
+    response_template = "### Output"
+    collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)  # By using this collator, we finetune the model on the output part only.
+    SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 16, 2048, max_steps, resume_from_checkpoint=resume_from_checkpoint, collator=collator)
 
  
 if f_test:
@@ -238,7 +245,7 @@ if f_test:
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
 
-    batch_size = 8
+    batch_size = 24
     input_prompts, file_paths, samples = [], [], []
     for i in tqdm(range(len(data_test))):
         file_path = folder_path + f'/{str(i)}.json'

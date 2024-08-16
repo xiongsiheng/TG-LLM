@@ -8,6 +8,7 @@ import argparse
 
 
 
+
 parser = argparse.ArgumentParser()
 
 
@@ -41,6 +42,9 @@ dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_
 split_name = ['', '_easy', '_hard', '_l2', '_l3'][dataset_selection]
 model_name = ['gpt-3.5-turbo', 'gpt-4-1106-preview', 'Llama-2-7b-hf', 'Llama-2-13b-hf', 'Llama-2-70b-hf'][model_selection]
 learning_setting = 'SP' if not f_using_CoT else 'CoT'
+
+
+
 
 
 if f_SFT:

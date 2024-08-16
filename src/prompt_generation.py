@@ -56,23 +56,22 @@ def my_generate_prompt_TG_Reasoning(dataset_name, split_name, story, TG, EK, Q, 
         with open(file_path) as txt_file:
             prompt_examples = txt_file.read()
 
-
     context = f'"Timeline":\n{json.dumps(TG)},\n' if not f_no_TG else f'"Story":\n{json.dumps(story)},\n'
 
     if f_ICL and mode == 'test':
-        prompt = f'Example:\n\n{prompt_examples}\n\nTest:\n\nInput:\n{{\n{context}"Question": {json.dumps(Q)},'
+        prompt = f'Example:\n\n{prompt_examples}\n\nTest:\n\n### Input:\n{{\n{context}"Question": {json.dumps(Q)},'
     else:
-        prompt = f'Input:\n{{\n{context}"Question": {json.dumps(Q)},'
+        prompt = f'### Input:\n{{\n{context}"Question": {json.dumps(Q)},'
 
     if EK is not None:
         prompt += f'\n"Useful information":\n{json.dumps(EK)},'
 
-    prompt += '\n"Instruction": "Let\'s think step by step. Only return me json."\n}\nOutput:\n```json\n'
+    prompt += '\n"Instruction": "Let\'s think step by step. Only return me json."\n}\n ### Output:\n```json\n'
 
     if CoT is not None and A is not None:
         if isinstance(CoT, list):
             CoT = CoT[0]
-        CoT = CoT.replace('\n', ' ')
+        # CoT = CoT.replace('\n', ' ')
         prompt += f'{{\n"Thought": {json.dumps(CoT)},\n"Answer": {json.dumps(A)}\n}}\n```'
     
     prompt += eos_token

@@ -128,7 +128,8 @@ def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples, file_path):
         cur_prompts = []
         context_len = []
         for comb in combinations:
-            CoT = comb[0].replace('\n', ' ')
+            CoT = comb[0]
+            # CoT = CoT.replace('\n', ' ')
             context = input_prompts[j] + f'{{\n"Thought": {json.dumps(CoT)},\n"Answer":'
             final = context + f'{json.dumps([comb[1]])}\n}}```'
 
