@@ -141,7 +141,7 @@ for i in tqdm(range(len(data_test))):
     if CoT is None:
         continue
     
-    CoT = CoT.replace('\n', ' ')
+    # CoT = CoT.replace('\n', ' ')
     cur_prompt += f'{{\n"Thought": {json.dumps(CoT)},\n"Answer":'
 
     input_prompts.append(cur_prompt)
