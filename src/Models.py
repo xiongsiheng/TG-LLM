@@ -275,8 +275,6 @@ def SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, dat
     per_device_eval_batch_size = batch_size
     eval_accumulation_steps = 4
     optim = "paged_adamw_32bit"
-    save_steps = 10
-    logging_steps = 10
     learning_rate = 5e-4
     max_grad_norm = 0.3
     warmup_ratio = 0.03
@@ -289,9 +287,7 @@ def SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, dat
                 gradient_accumulation_steps=gradient_accumulation_steps,
                 optim=optim,
                 evaluation_strategy=evaluation_strategy,
-                save_steps=save_steps,
                 learning_rate=learning_rate,
-                logging_steps=logging_steps,
                 max_grad_norm=max_grad_norm,
                 max_steps=max_steps,
                 warmup_ratio=warmup_ratio,

@@ -226,8 +226,7 @@ if f_train:
         return output
 
     output_dir = f"../model_weights/{dataset_name}_{strategy}{split_name}"
-    max_steps = 50 if dataset_name == 'TGQA' else 20
-    max_steps = 5 if f_unit_test else max_steps
+    max_steps = 5 if f_unit_test else -1
     response_template = "### Output"
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)  # By using this collator, we finetune the model on the output part only.
     SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 16, 2048, max_steps, resume_from_checkpoint=resume_from_checkpoint, collator=collator)

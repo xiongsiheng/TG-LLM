@@ -134,7 +134,7 @@ if f_train:
     if transferred_dataset_name is not None:
         output_dir = f"../model_weights/{dataset_name}_to_{transferred_dataset_name}_story_TG_trans"
 
-    max_steps = 5 if f_unit_test else 50
+    max_steps = 5 if f_unit_test else -1
     response_template = "### Output"
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)  # By using this collator, we finetune the model on the output part only.
     SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 4, 4096, max_steps, resume_from_checkpoint=resume_from_checkpoint, 
