@@ -7,7 +7,7 @@ Our framework (TG-LLM) performs **temporal reasoning** in two steps: 1) **Text-t
 <br>
 
 <p align="center">
-  <img src='https://raw.githubusercontent.com/xiongsiheng/TG-LLM/main/misc/Framework.png' width=550>
+  <img src='https://raw.githubusercontent.com/xiongsiheng/TG-LLM/main/misc/Framework.png' width=450>
 </p>
 
 
