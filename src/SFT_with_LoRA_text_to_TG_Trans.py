@@ -72,7 +72,7 @@ data_test = dataset['test']
 
 def add_prompt(sample):
     sample['prompt'] = my_generate_prompt_TG_trans(dataset_name, sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], 
-                                                   f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, max_story_len=1500)
+                                                   f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, max_story_len=1200)
     return sample
 
 data_train = data_train.map(add_prompt)
@@ -137,7 +137,9 @@ if f_train:
     max_steps = 5 if f_unit_test else -1
     response_template = "### Output"
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)  # By using this collator, we finetune the model on the output part only.
-    SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 4, 4096, max_steps, resume_from_checkpoint=resume_from_checkpoint, 
+    batch_size = 12 if dataset_name == 'TGQA' else 4
+    max_seq_length = 1500 if dataset_name == 'TGQA' else 4096
+    SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, batch_size, max_seq_length, max_steps, resume_from_checkpoint=resume_from_checkpoint, 
                   collator=collator)
 
 

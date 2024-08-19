@@ -229,7 +229,9 @@ if f_train:
     max_steps = 5 if f_unit_test else -1
     response_template = "### Output"
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)  # By using this collator, we finetune the model on the output part only.
-    SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, 16, 2048, max_steps, resume_from_checkpoint=resume_from_checkpoint, collator=collator)
+    batch_size = 24 if 'TimeQA' in dataset_name else 12
+    max_seq_length = 700 if 'TimeQA' in dataset_name else 1500
+    SFT_with_LoRA(model, tokenizer, output_dir, formatting_func, data_train, data_val, batch_size, max_seq_length, max_steps, resume_from_checkpoint=resume_from_checkpoint, collator=collator)
 
  
 if f_test:
