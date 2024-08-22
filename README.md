@@ -133,7 +133,7 @@ split = dataset['train']  # Multiple splits available: "train", "val", "test"
 ## Accelerate with Multi GPUs
 The default training/inference arguments are for a single A800 (GPU memory: 80G). If you have multiple GPUs, the **training** process can be accelerated in a distributed way. Here we recommend the library of **DeepSpeed** [[docs]](https://huggingface.co/docs/peft/en/accelerate/deepspeed).
 
-Also, we can accelerate the **inference** with multiple GPUs [[src/Example_accelerate_inference.py]](https://raw.githubusercontent.com/xiongsiheng/TG-LLM/main/src/Example_accelerate_inference.py).
+Also, you can accelerate the **inference** with multiple GPUs [[src/Example_accelerate_inference.py]](https://raw.githubusercontent.com/xiongsiheng/TG-LLM/main/src/Example_accelerate_inference.py).
 
 ## Contact
 If you have any inquiries, please feel free to raise an issue or reach out to sxiong45@gatech.edu.
