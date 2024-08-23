@@ -115,7 +115,7 @@ python Evaluation.py --dataset TGQA --model Llama2-13b --SFT --no_TG
 ```
 
 ## Prompt Format
-We have changed the prompt format of our framework into **JSON** which is much eaiser to parse and doesn't hurt the peformance.
+The original format used in the paper is plain text. We also provide the option of **JSON** which is much easier to parse and doesn't hurt the performance much. Please use the command **--prompt_format** to change the format seamlessly.
 
 ## Datasets
 
