@@ -19,6 +19,7 @@ parser.add_argument('--dataset', type=str)
 parser.add_argument('--print_prompt', action='store_true')
 parser.add_argument('--overwrite', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
+parser.add_argument('--prompt_format', type=str, default='plain')
 
 
 args = parser.parse_args()
@@ -30,6 +31,9 @@ args = parser.parse_args()
 ######### Config #########
 
 dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'].index(args.dataset)
+
+prompt_format = args.prompt_format  # whether use plain (text) or json as prompt format
+
 f_print_example_prompt = args.print_prompt   # whether to print the example prompt for the model
 f_overwrite = args.overwrite   # whether overwrite existing results
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
@@ -61,7 +65,7 @@ print(data_val)
 if f_print_example_prompt:
     for i in range(5):
         sample = data_train[i]
-        prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'])
+        prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'], prompt_format=prompt_format)
         print(prompt)
         print('===============================')
 
@@ -83,7 +87,7 @@ model.eval()  # Set the model to evaluation mode
 
 
 
-def CoT_bootstrap(data, filename, model, tokenizer, batch_size=4):
+def CoT_bootstrap(data, filename, model, tokenizer, batch_size=4, prompt_format='plain'):
     '''
     Given a list of CoT for each sample that leads to the correct final answer, calculate the probability of each CoT for each sample.
     Todo: Here we start from the data with filtered CoTs. We can also start from the data with no CoTs, and we need to generate and filter the CoTs in this function.
@@ -91,6 +95,10 @@ def CoT_bootstrap(data, filename, model, tokenizer, batch_size=4):
     Args:
     data: the data with filtered CoTs
     filename: the filename to save the results
+    model: the model
+    tokenizer: the tokenizer
+    batch_size: the batch size
+    prompt_format: the format of the prompt
 
     Returns:
     None
@@ -108,21 +116,21 @@ def CoT_bootstrap(data, filename, model, tokenizer, batch_size=4):
         if os.path.exists(cur_file_path) and (not f_overwrite):
             continue
 
-        cur_prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'])
+        cur_prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'], prompt_format=prompt_format)
         input_prompts.append(cur_prompt)
         input_samples.append(sample)
 
         if len(input_prompts) >= batch_size:
-            run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path)
+            run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path, prompt_format=prompt_format)
             input_prompts = []
             input_samples = []
 
     # Last batch that is less than batch_size
     if len(input_prompts) > 0:
-        run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path)
+        run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path, prompt_format=prompt_format)
 
     return
 
 
-CoT_bootstrap(data_train, split_train, model, tokenizer)
-CoT_bootstrap(data_val, split_val, model, tokenizer)
+CoT_bootstrap(data_train, split_train, model, tokenizer, prompt_format)
+CoT_bootstrap(data_val, split_val, model, tokenizer, prompt_format)

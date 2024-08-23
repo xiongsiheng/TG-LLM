@@ -1,0 +1,19 @@
+Input:
+{
+    "Story": "Once upon a time in the small town of Harrison, two lives began that would intertwine in unexpected ways. Liam Mitchell came into the world in 1885, and a few years later, in 1893, Maddox Reynolds was born in Glenville. As fate would have it, Liam and Maddox's paths didn't cross until many years later. In 1916, Liam Mitchell married a lovely woman named Emma Scott. Their marriage was filled with happiness and love, and they cherished each other's company. However, their union was short-lived, as Emma passed away in 1918, leaving Liam heartbroken. In the midst of his grief, Liam found solace with another person who understood the pain of loss - Maddox Reynolds. In 1922, Liam and Maddox found themselves drawn together, seeking comfort and companionship. They decided to marry and start a new chapter in their lives together. Liam and Maddox's love for each other grew with each passing day, and their union lasted until 1928 when fate once again intervened. Maddox Reynolds tragically passed away in the peaceful town of Oceanview, leaving Liam devastated. Liam continued his journey through life, carrying the memories of his loved ones with him. In 1941, Liam Mitchell himself left this world, his spirit resting in the vibrant city of Boston. Decades later, in 1984, Emma Scott, Liam's first wife, also found peace in Oceanview, completing the circle of lives that began so many years ago. Their stories are a testament to the unpredictable nature of life and the deep connections we forge along the way. Though their paths were filled with both joy and sorrow, the memories they created and the love they shared will forever remain in the tapestry of their lives.",
+    "Question": "True or false: event (Liam Mitchell was married to Maddox Reynolds) was longer in duration than event (Emma Scott was married to Liam Mitchell)?",
+    "Useful information": [
+        "1885 before 1893 before 1916 before 1918 before 1922 before 1928 before 1941",
+        "1918 - 1916 = 2",
+        "1928 - 1893 = 35",
+        "1928 - 1922 = 6",
+        "1941 - 1918 = 23",
+        "2 < 6 < 23 < 35"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To determine whether the statement is true or false, we need to compare the durations of (Liam Mitchell was married to Maddox Reynolds) and (Emma Scott was married to Liam Mitchell). The duration for each event can be calculated as follows:  (Liam Mitchell was married to Maddox Reynolds): (Liam Mitchell was married to Maddox Reynolds) starts at 1922, (Liam Mitchell was married to Maddox Reynolds) ends at 1928, 1928 - 1922 = 6.  (Emma Scott was married to Liam Mitchell): (Emma Scott was married to Liam Mitchell) starts at 1916, (Emma Scott was married to Liam Mitchell) ends at 1918, 1918 - 1916 = 2.  Now, we compare the duration of the two events: 6 is greater than 2.",
+    "Answer": ["True"]
+}

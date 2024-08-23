@@ -1,0 +1,16 @@
+Input:
+{
+    "Timeline": [
+        "Clarence Norman Brunsdale holds the position of member of the State Senate of North Dakota from Jan, 1940 to Jan, 1951.",
+        "Clarence Norman Brunsdale holds the position of Governor of North Dakota from Jan, 1951 to Jan, 1957.",
+        "Clarence Norman Brunsdale holds the position of United States senator from Nov, 1959 to Aug, 1960."
+    ],
+    "Question": "Which position did Clarence Norman Brunsdale hold after member of the State Senate of North Dakota?",
+    "Useful information": ["( Jan, 1940 ) before ( Jan, 1951 ) before ( Jan, 1957 ) before ( Nov, 1959 ) before ( Aug, 1960 )"],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "Since ( Clarence Norman Brunsdale holds the position of member of the State Senate of North Dakota from Jan, 1940 to Jan, 1951 ) , the period after ( from Jan, 1940 to Jan, 1951 ) is ( from Jan, 1951 to Jan, 1957 ) .",
+    "Answer": ["Governor of North Dakota"]
+}

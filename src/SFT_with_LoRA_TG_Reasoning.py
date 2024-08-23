@@ -33,6 +33,7 @@ parser.add_argument('--unit_test', action='store_true')
 parser.add_argument('--transferred', action='store_true')
 parser.add_argument('--no_TG', action='store_true')
 parser.add_argument('--resume_from', type=str)
+parser.add_argument('--prompt_format', type=str, default='plain')
 
 
 args = parser.parse_args()
@@ -41,17 +42,22 @@ args = parser.parse_args()
 ######### Config #########
 
 dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'].index(args.dataset)
+
 f_train = args.train   # whether train the model
-f_test = args.test   # whether test the model
 f_CoT_bs = args.CoT_bs   # whether use CoT bootstrapping
 f_data_aug = args.data_aug   # whether use data augmentation
+resume_from_checkpoint = args.resume_from  # set this to the checkpoint path if you want to resume training from a checkpoint otherwise leave it as None
+
+f_test = args.test   # whether test the model
 f_ICL = args.ICL   # whether use in-context learning during test
 f_overwrite = args.overwrite   # whether overwrite existing test results
+
 f_print_example_prompt = args.print_prompt   # whether to print the example prompt for the model
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
+
+prompt_format = args.prompt_format  # whether use plain (text) or json as prompt format
 f_transferred = args.transferred  # whether to use the TG results from transfer learning
 f_no_TG = args.no_TG  # whether to use the temporal graph or original story as context
-resume_from_checkpoint = args.resume_from  # set this to the checkpoint path if you want to resume training from a checkpoint otherwise leave it as None
 
 ###########################
 
@@ -148,7 +154,7 @@ data_test = read_data(dataset_name, prefix, 'test')
 def add_prompt(sample):
     sample['prompt'] = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], sample['TG'], sample['external knowledge'], 
                                                         sample['question'], sample['CoT'], sample['answer'], 
-                                                        f_ICL, eos_token="</s>", f_no_TG=f_no_TG)
+                                                        f_ICL, eos_token="</s>", f_no_TG=f_no_TG, prompt_format=prompt_format)
     return sample
 
 data_train = data_train.map(add_prompt)
@@ -170,12 +176,14 @@ print(data_test)
 
 
 if f_test:
-    path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
-    if f_transferred:
-        path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
-    # use estimated temporal graph for test
-    TG_pred = obtain_TG_pred(path_TG_pred)
-
+    if not f_no_TG:
+        # use estimated temporal graph for test
+        path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
+        if f_transferred:
+            path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
+        pred_TGs = obtain_TG_pred(path_TG_pred, prompt_format=prompt_format)
+    else:
+        pred_TGs = {}
 
 
 if f_print_example_prompt:
@@ -184,7 +192,7 @@ if f_print_example_prompt:
             sample = data_train[i]
             prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], sample['TG'], sample['external knowledge'], 
                                                      sample['question'], sample['CoT'], sample['answer'], 
-                                                     f_ICL, mode='train', eos_token="</s>", f_no_TG=f_no_TG)
+                                                     f_ICL, mode='train', eos_token="</s>", f_no_TG=f_no_TG, prompt_format=prompt_format)
             print(prompt)
             print('===============================')
 
@@ -192,12 +200,14 @@ if f_print_example_prompt:
         for i in range(5):
             sample = data_test[i]
             story_id = process_id(dataset_name, sample['id'])
-            if story_id in TG_pred:
-                prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], TG_pred[story_id], sample['external knowledge'], 
-                                                         sample['question'], None, None, 
-                                                         f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG)
-                print(prompt)
-                print('===============================')
+            pred_TG = pred_TGs[story_id] if story_id in pred_TGs else None
+            if pred_TG is None and not f_no_TG:
+                continue
+            prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], pred_TG, sample['external knowledge'], 
+                                                        sample['question'], None, None, f_ICL, 
+                                                        Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG, prompt_format=prompt_format)
+            print(prompt)
+            print('===============================')
 
 
 
@@ -255,10 +265,12 @@ if f_test:
 
         sample = data_test[i]
         story_id = process_id(dataset_name, sample['id'])
-        if story_id not in TG_pred:
+        pred_TG = pred_TGs[story_id] if story_id in pred_TGs else None
+        if pred_TG is None and not f_no_TG:
             continue
-        cur_prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], TG_pred[story_id], sample['external knowledge'], 
-                                                     sample['question'], None, None, f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG)
+        cur_prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], pred_TG, sample['external knowledge'], 
+                                                     sample['question'], None, None, f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG,
+                                                     prompt_format=prompt_format)
 
         input_prompts.append(cur_prompt)
         samples.append(sample)
@@ -266,9 +278,9 @@ if f_test:
 
         # collect the prompts as a batch
         if len(input_prompts) >= batch_size:
-            run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths)
+            run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths, prompt_format=prompt_format)
             input_prompts, file_paths, samples = [], [], []
 
     # deal with the last batch
     if len(input_prompts) > 0:
-        run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths)
+        run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths, prompt_format=prompt_format)

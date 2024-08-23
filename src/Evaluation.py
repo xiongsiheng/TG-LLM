@@ -19,6 +19,7 @@ parser.add_argument('--ICL_only', action='store_true')
 parser.add_argument('--CoT', action='store_true')
 parser.add_argument('--ppl', action='store_true')
 parser.add_argument('--no_TG', action='store_true')
+parser.add_argument('--prompt_format', type=str, default='plain')
 
 args = parser.parse_args()
 
@@ -34,6 +35,7 @@ f_inference_ICL = args.ICL_only   # whether use inference with ICL only
 f_using_CoT = args.CoT   # whether use CoT
 f_ppl = args.ppl   # whether use perplexity
 f_no_TG = args.no_TG  # whether to use the temporal graph or original story as context
+prompt_format = args.prompt_format  # whether use plain (text) or json as prompt format
 
 ###########################
 
@@ -140,13 +142,13 @@ for i in range(num_test_samples):
         data = json.load(json_file)
 
     pred = data['prediction'].strip()
-  
-    # For our framework, we use json format which is much more convenient for parsing.
+    
+    # For our framework, we use plain/json format.
     if f_SFT:
         if f_ppl:
             pred = data['prediction']
         else:
-            _, pred = parse_TGR_pred(pred)
+            _, pred = parse_TGR_pred(pred, prompt_format)
             pred = '' if pred is None else pred[0]
     else:
         pred = parse_generation(pred)

@@ -1,0 +1,45 @@
+Input:
+{
+    "Timeline": [
+        "(Nathan Reed was born in Meadowland) starts at 1983",
+        "(Nathan Reed played for Redwood United F.C.) starts at 1992",
+        "(Nathan Reed played for Redwood United F.C.) ends at 1997",
+        "(Nathan Reed played for Cheshire national under-16 football team) starts at 2000",
+        "(Nathan Reed played for Seattle Warriors under-17 football team) starts at 2000",
+        "(Nathan Reed played for Westminster Lions) starts at 2001",
+        "(Nathan Reed played for Chicago Bulls) starts at 2003",
+        "(Nathan Reed played for Chelsea United FC) starts at 2005",
+        "(Nathan Reed played for Westminster Lions) ends at 2005",
+        "(Nathan Reed played for Blueberry City FC) starts at 2006",
+        "(Nathan Reed played for Chelsea United FC) ends at 2006",
+        "(Nathan Reed played for Lancaster United) starts at 2007",
+        "(Nathan Reed played for Blueberry City FC) ends at 2007",
+        "(Nathan Reed played for Phoenix United) starts at 2008",
+        "(Nathan Reed played for Lancaster United) ends at 2008",
+        "(Nathan Reed played for L.J. Queensborough) starts at 2009",
+        "(Nathan Reed played for Phoenix United) ends at 2009",
+        "(Nathan Reed played for Chicago Bulls) ends at 2010",
+        "(Nathan Reed played for Los Angeles Lakers) starts at 2010",
+        "(Nathan Reed played for L.J. Queensborough) ends at 2010",
+        "(Nathan Reed played for Los Angeles Lakers) ends at 2012",
+        "(Nathan Reed played for Oliverstown United) starts at 2012"
+    ],
+    "Question": "What happened right after the event (Nathan Reed played for Chelsea United FC) starts?",
+    "Useful information": [
+        "1983 before 1992 before 1997 before 2000 before 2001 before 2003 before 2005 before 2006 before 2007 before 2008 before 2009 before 2010 before 2012",
+        "2000 - 1992 = 8",
+        "2007 - 1997 = 10",
+        "2007 - 2001 = 6",
+        "2009 - 2008 = 1",
+        "2010 - 2009 = 1",
+        "2012 - 2000 = 12",
+        "2012 - 2010 = 2",
+        "1 < 2 < 6 < 8 < 10 < 12"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to look at the timeline of events and identify what happened immediately after the specific event (Nathan Reed played for Chelsea United FC) starts.   Looking at the timeline:  (Nathan Reed played for Chelsea United FC) starts at 2005.  The next time is 2006. From the timeline, we can find (Nathan Reed played for Chelsea United FC) ends at 2006.",
+    "Answer": ["(Nathan Reed played for Chelsea United FC) ends"]
+}

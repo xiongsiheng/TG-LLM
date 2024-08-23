@@ -1,0 +1,24 @@
+Input:
+{
+    "Timeline": [
+        "(Adam Campbell was born in Harrison) starts at 1948",
+        "(John Anderson was born in Harrison) starts at 1948",
+        "(Jaden Parker was married to Adam Campbell) starts at 1983",
+        "(John Anderson was married to Jaden Parker) starts at 1990",
+        "(Jaden Parker was married to John Anderson) starts at 1990",
+        "(Adam Campbell died in Oceanview) starts at 2009"
+    ],
+    "Question": "When did the event (Adam Campbell died in Oceanview) start?",
+    "Useful information":[
+        "1948 before 1983 before 1990",
+        "1983 - 1948 = 35",
+        "1990 - 1948 = 42",
+        "35 < 42"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to identify the specific event in question from the list and then determine the starting year of that event. The event we're looking for is (Adam Campbell died in Oceanview) start .  In the information provided: (Adam Campbell died in Oceanview) starts at 2009",
+    "Answer": ["2009"]
+}

@@ -24,6 +24,8 @@ parser.add_argument('--print_prompt', action='store_true')
 parser.add_argument('--unit_test', action='store_true')
 parser.add_argument('--transferred', action='store_true')
 parser.add_argument('--no_TG', action='store_true')
+parser.add_argument('--prompt_format', type=str, default='plain')
+
 
 args = parser.parse_args()
 
@@ -32,10 +34,14 @@ args = parser.parse_args()
 ######### Config #########
 
 dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'].index(args.dataset)
+
 f_ICL = args.ICL   # whether use in-context learning during test
 f_overwrite = args.overwrite   # whether overwrite existing test results
+
 f_print_example_prompt = args.print_prompt   # whether to print the example prompt for the model
 f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
+
+prompt_format = args.prompt_format  # whether use plain (text) or json as prompt format
 f_transferred = args.transferred  # whether to use the TG results from transfer learning
 f_no_TG = args.no_TG  # whether to use the temporal graph or original story as context
 
@@ -61,23 +67,28 @@ if f_unit_test:
 
 print(data_test)
 
-
-path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
-if f_transferred:
-    path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
-# use estimated temporal graph for test
-TG_pred = obtain_TG_pred(path_TG_pred)
+if not f_no_TG:
+    path_TG_pred = f'../results/{dataset_name}_story_TG_trans/'
+    if f_transferred:
+        path_TG_pred = f'../results/TGQA_to_{dataset_name}_story_TG_trans/'
+    # use estimated temporal graph for test
+    pred_TGs = obtain_TG_pred(path_TG_pred)
+else:
+    pred_TGs = {}
 
 
 if f_print_example_prompt:
     for i in range(5):
         sample = data_test[i]
         story_id = process_id(dataset_name, sample['id'])
-        if story_id in TG_pred:
-            prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], TG_pred[story_id], sample['external knowledge'], 
-                                                     sample['question'], None, None, f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG)
-            print(prompt)
-            print('===============================')
+        pred_TG = pred_TGs[story_id] if story_id in pred_TGs else None
+        if pred_TG is None and not f_no_TG:
+            continue
+        prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], pred_TG, sample['external knowledge'], 
+                                                    sample['question'], None, None, f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG,
+                                                    prompt_format=prompt_format)
+        print(prompt)
+        print('===============================')
 
 
 
@@ -118,6 +129,7 @@ if not os.path.exists(folder_path_past_res):
 
 batch_size = 4
 input_prompts, file_paths, samples = [], [], []
+using_json = True if prompt_format.lower() == 'json' else False
 for i in tqdm(range(len(data_test))):
     file_path = folder_path + f'/{str(i)}.json'
     if os.path.exists(file_path) and (not f_overwrite):
@@ -125,10 +137,12 @@ for i in tqdm(range(len(data_test))):
 
     sample = data_test[i]
     story_id = process_id(dataset_name, sample['id'])
-    if story_id not in TG_pred:
+    pred_TG = pred_TGs[story_id] if story_id in pred_TGs else None
+    if pred_TG is None and not f_no_TG:
         continue
-    cur_prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], TG_pred[story_id], sample['external knowledge'], 
-                                                 sample['question'], None, None, f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG)
+    cur_prompt = my_generate_prompt_TG_Reasoning(dataset_name, split_name, sample['story'], pred_TG, sample['external knowledge'], 
+                                                 sample['question'], None, None, f_ICL, Q_type=sample['Q-Type'], mode='test', f_no_TG=f_no_TG,
+                                                 prompt_format=prompt_format)
 
     file_path_past_res = f'{folder_path_past_res}/{str(i)}.json'
     if not os.path.exists(file_path_past_res):
@@ -137,12 +151,12 @@ for i in tqdm(range(len(data_test))):
     with open(file_path_past_res) as json_file:
         past_res = json.load(json_file)
 
-    CoT, _ = parse_TGR_pred(past_res['prediction'])
+    CoT, _ = parse_TGR_pred(past_res['prediction'], prompt_format)
     if CoT is None:
         continue
     
     # CoT = CoT.replace('\n', ' ')
-    cur_prompt += f'{{\n"Thought": {json.dumps(CoT)},\n"Answer":'
+    cur_prompt += f'{{\n"Thought": {json.dumps(CoT)},\n"Answer":' if prompt_format.lower() == 'json' else f'\nThought: {CoT}\n\nAnswer:'
 
     input_prompts.append(cur_prompt)
     samples.append(sample)
@@ -150,9 +164,9 @@ for i in tqdm(range(len(data_test))):
 
     # collect the prompts as a batch
     if len(input_prompts) >= batch_size:
-        run_one_batch_ppl(peft_model, tokenizer, input_prompts, samples, file_paths)
+        run_one_batch_ppl(peft_model, tokenizer, input_prompts, samples, file_paths, using_json)
         input_prompts, file_paths, samples = [], [], []
 
 # deal with the last batch
 if len(input_prompts) > 0:
-    run_one_batch_ppl(peft_model, tokenizer, input_prompts, samples, file_paths)
+    run_one_batch_ppl(peft_model, tokenizer, input_prompts, samples, file_paths, using_json)

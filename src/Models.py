@@ -104,7 +104,7 @@ def run_one_batch_ICL(model_name, model, tokenizer, input_prompts, samples, file
     return
 
 
-def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples, file_path):
+def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples, file_path, prompt_format='plain'):
     '''
     For each sample, calculate the contrastive score for each CoT. Then save the results to the corresponding files.
     
@@ -114,10 +114,13 @@ def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples, file_path):
     input_prompts: the input prompts, list
     samples: the samples, dict
     file_path: the file path to save the results, str
+    prompt_format: the format of the prompt, str
 
     Returns:
     samples: the samples with the CoT sample probability, dict
     '''
+    assert prompt_format.lower() in ['plain', 'json'], "Prompt format is not recognized."
+    
     gamma = 0.5    # score = logProbs_pos + gamma*(logProbs_pos - logProbs_neg)
     for j in range(len(input_prompts)):
         cur_sample = samples[j]
@@ -130,8 +133,9 @@ def run_one_batch_CoT_bs(model, tokenizer, input_prompts, samples, file_path):
         for comb in combinations:
             CoT = comb[0]
             # CoT = CoT.replace('\n', ' ')
-            context = input_prompts[j] + f'{{\n"Thought": {json.dumps(CoT)},\n"Answer":'
-            final = context + f'{json.dumps([comb[1]])}\n}}```'
+            context = input_prompts[j] + f'{{\n"Thought": {json.dumps(CoT)},\n"Answer": ' if prompt_format.lower() == 'json' else \
+                    input_prompts[j] + f'\nThought: {CoT}\n\nAnswer: '
+            final = context + f'{json.dumps([comb[1]])}\n}}```' if prompt_format.lower() == 'json' else context + comb[1]
 
             len_bf = tokenizer(context, return_tensors="pt")["input_ids"].shape[1]
             len_af = tokenizer(final, return_tensors="pt")["input_ids"].shape[1]
@@ -212,7 +216,7 @@ def run_one_batch_ppl(model, tokenizer, input_prompts, samples, file_paths, usin
     return
 
 
-def run_one_batch_generation(model, tokenizer, input_prompts, samples, file_paths, max_new_tokens=512):
+def run_one_batch_generation(model, tokenizer, input_prompts, samples, file_paths, max_new_tokens=512, prompt_format='plain'):
     '''
     Generate the predictions for one batch of samples and save the results.
 
@@ -223,10 +227,13 @@ def run_one_batch_generation(model, tokenizer, input_prompts, samples, file_path
         samples: list of dictionaries, samples
         file_paths: list of strings, file paths
         max_new_tokens: int, maximum number of new tokens
+        prompt_format: str, the format of the prompt
 
     return:
         None
     '''
+    assert prompt_format.lower() in ['plain', 'json'], "Prompt format is not recognized."
+
     input_tokens = tokenizer(input_prompts, padding='longest', return_tensors="pt")["input_ids"].to("cuda")
 
     with torch.cuda.amp.autocast():
@@ -244,7 +251,10 @@ def run_one_batch_generation(model, tokenizer, input_prompts, samples, file_path
 
     for j in range(len(input_prompts)):
         op = tokenizer.decode(generation_output[j], skip_special_tokens=True)
-        op = op[len(input_prompts[j]) - len('\n```json'):]
+        if prompt_format == 'json':
+            op = op[len(input_prompts[j]) - len('\n```json'):]
+        else:
+            op = op[len(input_prompts[j]):]
         cur_sample = samples[j]
         cur_sample.update({'prediction': op})
 

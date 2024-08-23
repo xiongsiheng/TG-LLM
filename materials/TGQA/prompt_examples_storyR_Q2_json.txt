@@ -1,0 +1,21 @@
+Input:
+{
+    "Story": "Once upon a time, in the small town of Shelbyville, Illinois, a talented actress named Sophia Evans was born in 1894. From an early age, Sophia had a natural flair for the dramatic arts and a passion that burned bright within her. As the years went by, Sophia's talent blossomed, and she caught the attention of a young aspiring actor named David Adams. Born in the vibrant city of San Francisco in 1898, David was captivated by Sophia's performances and couldn't help but be drawn to her magnetic presence. In 1934, destiny brought Sophia and David together, and they decided to embark on a journey of love and companionship. Tying the knot, they exchanged vows and promised to support each other's dreams. For the next five blissful years, Sophia and David stood by each other's side, sharing laughter, tears, and the spotlight. They were an unstoppable force, bringing joy and inspiration to their audiences with their incredible performances. However, in 1939, their love story took an unexpected turn. Circumstances led to the end of their marriage, and their paths diverged. Sophia and David, once inseparable, decided to part ways and pursue their own separate destinies. In 1940, David found solace in the arms of another, a talented artist named Oliver Thompson. They shared a deep connection, and their love bloomed amidst the chaos of the world. However, their time together was short-lived, as fate dealt them a cruel hand. In 1942, their union came to an untimely end, and David was left heartbroken once again. Oliver Thompson, the love of his life, passed away, leaving a void in his soul that seemed impossible to fill. Heart heavy with grief, David carried on, forever cherishing the memories they shared. Years went by, and the world continued to turn. In 1968, Oliver Thompson took his last breath in Springfield, Chicago, leaving behind a lasting legacy. His presence in David's life had forever shaped him, and the impact of their love was etched into his very being. David Adams, now an experienced actor in his own right, continued to pursue his passion, gracing stages and screens alike. It was in 1981, while performing in the picturesque town of Oceanview, that David's own final curtain call came. His talent and dedication would forever be remembered. And so, the lives of Sophia Evans, David Adams, and Oliver Thompson wove together a story of love, loss, and the eternal power of artistic expression. Each one had left an indelible mark on the world, reminding us that our experiences, both joyous and heartbreaking, shape us into who we are meant to be.",
+    "Question": "How long did the event (David Adams (actor) was married to Sophia Evans) last?",
+    "Useful information": [
+        "1894 before 1898 before 1934 before 1939 before 1940 before 1942 before 1968",
+        "1939 - 1934 = 5",
+        "1940 - 1894 = 46",
+        "1940 - 1898 = 42",
+        "1942 - 1898 = 44",
+        "1942 - 1940 = 2",
+        "1968 - 1940 = 28",
+        "2 < 5 < 28 < 42 < 44 < 46"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to calculate the duration of the event (David Adams (actor) was married to Sophia Evans). This can be done by finding the difference between the start and end dates of the event. Based on the provided information: (David Adams (actor) was married to Sophia Evans) starts at 1934, (David Adams (actor) was married to Sophia Evans) ends at 1939. To find the duration, we subtract the start year from the end year: 1939 - 1934 = 5",
+    "Answer": ["5 years"]
+}

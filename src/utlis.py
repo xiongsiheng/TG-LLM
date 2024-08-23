@@ -34,7 +34,7 @@ def TG_formating_change(TG, dataset_name, targ_dataset):
     - targ_dataset: str, the target dataset
 
     Returns:
-    - TG: str, the TG with the new format
+    - TG: list of strings, the temporal graph in the new format
     '''
     assert (targ_dataset is None) or (targ_dataset in ['TimeQA', 'TempReason'] and dataset_name == 'TGQA') 
     
@@ -400,17 +400,24 @@ def shorten_story(story, max_len=1500):
     return ' '.join(story.split(' ')[:max_len])  # simply shorten the story to the first max_len words 
 
 
-def parse_TG_pred(pred):
-    try:
-        extraLen_back = len(pred.split('}')[-1])
-        res = pred[len(pred.split('{')[0]):-extraLen_back] if extraLen_back > 0 else pred[len(pred.split('{')[0]):]
-        res = eval(res)
-        TG = res['Timeline'] if 'Timeline' in res else res['timeline']
-        return TG
-    except:
-        pass
+def parse_TG_pred(pred, prompt_format='plain'):
+    if prompt_format.lower() == 'json':
+        try:
+            extraLen_back = len(pred.split('}')[-1])
+            res = pred[len(pred.split('{')[0]):-extraLen_back] if extraLen_back > 0 else pred[len(pred.split('{')[0]):]
+            res = eval(res)
+            TG = res['Timeline'] if 'Timeline' in res else res['timeline']
+            return TG
+        except:
+            pass
+        return None
+    else:
+        for end_identifier in ['Test:']:
+            if end_identifier in pred:
+                pred = pred.split(end_identifier)[0].strip()
+            break
+        return pred
     
-    return None
 
 
 
@@ -418,16 +425,19 @@ def replace_empty_answer_as_unknown(ans):
     return [a if len(a)>0 else 'Unknown' for a in ans]
 
 
-def obtain_TG_pred(path):
+def obtain_TG_pred(path, prompt_format='plain'):
     '''
     Obtain the estimated temporal graph for the test set.
 
     args:
         path: string, the path to the estimated temporal graph
+        prompt_format: string, the format of the prompt
 
     return:
         TG_pred: dict, the estimated temporal graph
     '''
+    assert prompt_format.lower() in ['plain', 'json'], "Prompt format is not recognized."
+
     TG_pred = {}
     for filename in os.listdir(path):
         if not filename.endswith('.json'):
@@ -435,21 +445,29 @@ def obtain_TG_pred(path):
         file_path = os.path.join(path, filename)
         with open(file_path) as json_file:
             data = json.load(json_file)
-        parsed_res = parse_TG_pred(data['prediction'])
+        parsed_res = parse_TG_pred(data['prediction'], prompt_format)
         if parsed_res is not None:
             TG_pred[data['id']] = parsed_res
     return TG_pred
 
 
-def parse_TGR_pred(pred):
-    try:
-        extraLen_back = len(pred.split('}')[-1])
-        res = pred[len(pred.split('{')[0]):-extraLen_back] if extraLen_back > 0 else pred[len(pred.split('{')[0]):]
-        res = eval(res)
-        CoT = res['Thought'] if 'Thought' in res else res['thought']
-        ans = res['Answer'] if 'Answer' in res else res['answer']
+def parse_TGR_pred(pred, prompt_format='plain'):
+    if prompt_format.lower() == 'json':
+        try:
+            extraLen_back = len(pred.split('}')[-1])
+            res = pred[len(pred.split('{')[0]):-extraLen_back] if extraLen_back > 0 else pred[len(pred.split('{')[0]):]
+            res = eval(res)
+            CoT = res['Thought'] if 'Thought' in res else res['thought']
+            ans = res['Answer'] if 'Answer' in res else res['answer']
+            return CoT, ans
+        except:
+            pass
+        return None, None
+    else:
+        for end_identifier in ['Test:']:
+            if end_identifier in pred:
+                pred = pred.split(end_identifier)[0].strip()
+            break
+        CoT = pred.split('Thought:')[1].split('Answer:')[0].strip()
+        ans = pred.split('Answer:')[1].strip()
         return CoT, ans
-    except:
-        pass
-    
-    return None, None

@@ -31,6 +31,7 @@ parser.add_argument('--unit_test', action='store_true')
 parser.add_argument('--transferred_dataset', type=str)
 parser.add_argument('--transferred', action='store_true')
 parser.add_argument('--resume_from', type=str)
+parser.add_argument('--prompt_format', type=str, default='plain')
 
 args = parser.parse_args()
 
@@ -39,21 +40,26 @@ args = parser.parse_args()
 ######### Config #########
 
 dataset_name = args.dataset   # 'TGQA', 'TimeQA', 'TempReason'
+
 f_train = args.train   # whether train the model
+resume_from_checkpoint = args.resume_from  # set this to the checkpoint path if you want to resume training from a checkpoint otherwise leave it as None
+
 f_test = args.test  # whether test the model
-f_overwrite = args.overwrite  # whether overwrite existing test results
 f_ICL = args.ICL  # whether use in-context learning during test
+f_overwrite = args.overwrite  # whether overwrite existing test results
+
+prompt_format = args.prompt_format  # whether use plain (text) or json as prompt format
 f_shorten_story = args.shorten_story   # whether shorten the story (For TimeQA and TempReason, it is possible that the story is too long to feed into the model)
 f_hard_mode = args.hard_mode   # whether use hard mode (only know relations) v.s. easy mode (know entities, relations and times) for translation
-f_print_example_prompt = args.print_prompt  # whether to print the example prompt for the model
-f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
 
 # If we want to test the transfer learning performance, just change the transferred dataset name.
 # Note: current dataset_name should be 'TGQA', transferred_dataset_name = None (no transfer learning) or 'TimeQA' or 'TempReason'
 transferred_dataset_name = args.transferred_dataset
 f_transferred = args.transferred  # whether to use transfer learning model during test (if True, we will read the model weights learned from the transferred dataset)
 
-resume_from_checkpoint = args.resume_from  # set this to the checkpoint path if you want to resume training from a checkpoint otherwise leave it as None
+f_print_example_prompt = args.print_prompt  # whether to print the example prompt for the model
+f_unit_test = args.unit_test   # whether to run the unit test (only for debugging)
+
 ###########################
 
 
@@ -72,7 +78,7 @@ data_test = dataset['test']
 
 def add_prompt(sample):
     sample['prompt'] = my_generate_prompt_TG_trans(dataset_name, sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], 
-                                                   f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, max_story_len=1200)
+                                                   f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, max_story_len=1200, prompt_format=prompt_format)
     return sample
 
 data_train = data_train.map(add_prompt)
@@ -96,11 +102,11 @@ if f_print_example_prompt:
         if f_train:
             sample = data_train[i]
             prompt = my_generate_prompt_TG_trans(dataset_name, sample['story'], sample['TG'], sample['entities'], sample['relation'], sample['times'], 
-                                                 f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, mode='train', eos_token="</s>")
+                                                 f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, mode='train', eos_token="</s>", prompt_format=prompt_format)
         if f_test:
             sample = data_test[i]
             prompt = my_generate_prompt_TG_trans(dataset_name, sample['story'], None, sample['entities'], sample['relation'], sample['times'], 
-                                                 f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, mode='test', eos_token="")
+                                                 f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, mode='test', eos_token="", prompt_format=prompt_format)
         print(prompt)
         print('===============================')
 
@@ -171,16 +177,16 @@ if f_test:
 
         sample = data_test[i]
         cur_prompt = my_generate_prompt_TG_trans(dataset_name, sample['story'], None, sample['entities'], sample['relation'], sample['times'], 
-                                                 f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, mode='test', eos_token='')
+                                                 f_ICL, f_shorten_story, f_hard_mode, transferred_dataset_name, mode='test', eos_token='', prompt_format=prompt_format)
         input_prompts.append(cur_prompt)
         samples.append(sample)
         file_paths.append(file_path)
  
         # collect the prompts as a batch
         if len(input_prompts) >= batch_size:
-            run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths, max_new_tokens=max_new_tokens)
+            run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths, max_new_tokens=max_new_tokens, prompt_format=prompt_format)
             input_prompts, file_paths, samples = [], [], []
 
     # Last batch that is less than batch_size
     if len(input_prompts) > 0:
-        run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths, max_new_tokens=max_new_tokens)
+        run_one_batch_generation(peft_model, tokenizer, input_prompts, samples, file_paths, max_new_tokens=max_new_tokens, prompt_format=prompt_format)

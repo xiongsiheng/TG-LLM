@@ -2,7 +2,7 @@ from utlis import *
 
 
 
-def my_generate_prompt_CoT_bs(TG, EK, Q):
+def my_generate_prompt_CoT_bs(TG, EK, Q, prompt_format='plain'):
     '''
     Generate the prompt for the model
     
@@ -10,22 +10,30 @@ def my_generate_prompt_CoT_bs(TG, EK, Q):
     TG: list of strings, temporal graph
     EK: list of strings, external knowledge
     Q: string, the question
+    prompt_format: string, the format of the prompt
     
     Returns:
     prompt: string, the prompt for the model
     '''
-    prompt = f'Input:\n{{\n"Timeline":\n{json.dumps(TG)},\n"Question": {json.dumps(Q)},'
+    assert prompt_format.lower() in ['plain', 'json'], "Prompt format is not recognized."
+
+    timeline = "\n".join(TG)
+    prompt = f'Input:\n{{\n"Timeline":\n{json.dumps(TG)},\n"Question": {json.dumps(Q)},' if prompt_format.lower() == 'json' else \
+            f'Input:\nTimeline:\n{timeline}\n\nQuestion: {Q}'
 
     if EK is not None:
-        prompt += f'\n"Useful information":\n{json.dumps(EK)},'
+        external_knowledge = "\n".join(EK)
+        prompt += f'\n"Useful information":\n{json.dumps(EK)},' if prompt_format.lower() == 'json' else f'\n\nUseful information:\n{external_knowledge}'
 
-    prompt += '\n"Instruction": "Let\'s think step by step. Only return me json."\n}\nOutput:\n```json\n'
+    prompt += '\n"Instruction": "Let\'s think step by step. Only return me json."\n}\nOutput:\n```json\n' if prompt_format.lower() == 'json' else \
+            "\n\nLet's think step by step.\n\nOutput:\n"
 
     return prompt
 
 
 
-def my_generate_prompt_TG_Reasoning(dataset_name, split_name, story, TG, EK, Q, CoT, A, f_ICL, Q_type=None, mode=None, eos_token="", f_no_TG=False):
+def my_generate_prompt_TG_Reasoning(dataset_name, split_name, story, TG, EK, Q, CoT, A, f_ICL, Q_type=None, mode=None, eos_token="", f_no_TG=False, 
+                                    prompt_format='plain'):
     '''
     Generate the prompt for the model.
 
@@ -33,8 +41,8 @@ def my_generate_prompt_TG_Reasoning(dataset_name, split_name, story, TG, EK, Q, 
         dataset_name: string, dataset name
         split_name: string, split name
         story: string, story
-        TG: list of strings or string, temporal graph
-        EK: list of strings or string, exteral knowledge
+        TG: list of strings, temporal graph
+        EK: list of strings, exteral knowledge
         Q: string, question
         CoT: list of strings, chain of thought
         A: string, answer
@@ -42,37 +50,50 @@ def my_generate_prompt_TG_Reasoning(dataset_name, split_name, story, TG, EK, Q, 
         mode: string, mode
         eos_token: string, eos token
         f_no_TG: bool, whether to use the temporal graph or original story as context
+        prompt_format: string, the format of the prompt
 
     return:
         prompt: string, the prompt
     '''
+    assert prompt_format.lower() in ['plain', 'json'], "Prompt format is not recognized."
+
     if f_ICL and mode == 'test':
         if dataset_name == 'TGQA':
             split_name = f'_Q{Q_type}'
 
+        filename_suffix = '_json' if prompt_format.lower() == 'json' else ''
         strategy = 'TGR' if not f_no_TG else 'storyR'        
-        file_path = f'../materials/{dataset_name}/prompt_examples_{strategy}{split_name}.txt'
+        file_path = f'../materials/{dataset_name}/prompt_examples_{strategy}{split_name}{filename_suffix}.txt'
 
         with open(file_path) as txt_file:
             prompt_examples = txt_file.read()
-
-    context = f'"Timeline":\n{json.dumps(TG)},\n' if not f_no_TG else f'"Story":\n{json.dumps(story)},\n'
+    
+    if prompt_format.lower() == 'json':
+        context = f'"Timeline":\n{json.dumps(TG)},' if not f_no_TG else f'"Story":\n{json.dumps(story)},'
+    else:
+        timeline = "\n".join(TG) if not f_no_TG else None
+        context = f'Timeline:\n{timeline}' if not f_no_TG else f'Story: {story}'
 
     if f_ICL and mode == 'test':
-        prompt = f'Example:\n\n{prompt_examples}\n\nTest:\n\n### Input:\n{{\n{context}"Question": {json.dumps(Q)},'
+        prompt = f'Example:\n{prompt_examples}\n\nTest:\n### Input:\n{{\n{context}\n"Question": {json.dumps(Q)},' if prompt_format.lower() == 'json' else \
+                f'Example:\n{prompt_examples}\n\nTest:\n### Input:\n{context}\n\nQuestion: {Q}'
     else:
-        prompt = f'### Input:\n{{\n{context}"Question": {json.dumps(Q)},'
+        prompt = f'### Input:\n{{\n{context}\n"Question": {json.dumps(Q)},' if prompt_format.lower() == 'json' else f'### Input:\n{context}\n\nQuestion: {Q}'
 
     if EK is not None:
-        prompt += f'\n"Useful information":\n{json.dumps(EK)},'
+        external_knowledge = "\n".join(EK)
+        prompt += f'\n"Useful information":\n{json.dumps(EK)},' if prompt_format.lower() == 'json' else f'\n\nUseful information:\n{external_knowledge}'
 
-    prompt += '\n"Instruction": "Let\'s think step by step. Only return me json."\n}\n ### Output:\n```json\n'
+    prompt += '\n"Instruction": "Let\'s think step by step. Only return me json."\n}\n ### Output:\n```json\n' if prompt_format.lower() == 'json' else \
+                "\n\nLet's think step by step.\n\n ### Output:\n"
 
     if CoT is not None and A is not None:
         if isinstance(CoT, list):
             CoT = CoT[0]
         # CoT = CoT.replace('\n', ' ')
-        prompt += f'{{\n"Thought": {json.dumps(CoT)},\n"Answer": {json.dumps(A)}\n}}\n```'
+        answer = '; '.join(A)
+        prompt += f'{{\n"Thought": {json.dumps(CoT)},\n"Answer": {json.dumps(A)}\n}}\n```' if prompt_format.lower() == 'json' else \
+                    f'Thought: {CoT}\n\nAnswer: {answer}'
     
     prompt += eos_token
     return prompt
@@ -118,7 +139,7 @@ def my_generate_prompt_ICL(dataset_name, split_name, learning_setting, story, Q,
 
 
 def my_generate_prompt_TG_trans(dataset_name, story, TG, entities, relation, times, f_ICL, f_shorten_story, f_hard_mode, 
-                                transferred_dataset_name, mode=None, eos_token="</s>", max_story_len=1500):
+                                transferred_dataset_name, mode=None, eos_token="</s>", max_story_len=1500, prompt_format='plain'):
     '''
     Generate the prompt for text to TG translation (given context and keywords, generate the relevant TG)
 
@@ -135,15 +156,18 @@ def my_generate_prompt_TG_trans(dataset_name, story, TG, entities, relation, tim
     - mode: train or test
     - eos_token: str, the end of sentence token
     - max_story_len: int, the maximum length of the story (only valid when f_shorten_story is True)
+    - prompt_format: str, the format of the prompt
 
     Returns:
     - prompt: str, the prompt
     '''
+    assert prompt_format.lower() in ['plain', 'json'], "Prompt format is not recognized."
 
-    def add_examples_in_prompt(prompt):
+    def add_examples_in_prompt(prompt, prompt_format):
         if f_ICL and mode == 'test':
-            file_path = f'../materials/{dataset_name}/prompt_examples_text_to_TG_Trans.txt' if (not f_hard_mode) else \
-                        f'../materials/{dataset_name}/prompt_examples_text_to_TG_Trans_hard.txt'
+            filename_suffix = '_json' if prompt_format.lower() == 'json' else ''
+            file_path = f'../materials/{dataset_name}/prompt_examples_text_to_TG_Trans{filename_suffix}.txt' if (not f_hard_mode) else \
+                        f'../materials/{dataset_name}/prompt_examples_text_to_TG_Trans_hard{filename_suffix}.txt'
             with open(file_path) as txt_file:
                 prompt_examples = txt_file.read()
             prompt = f"\n\n{prompt_examples}\n\nTest:\n{prompt}"
@@ -159,19 +183,22 @@ def my_generate_prompt_TG_trans(dataset_name, story, TG, entities, relation, tim
  
     if relation is None:
         # If we do not have such information extracted from the questions, we will translate the whole story.
-        prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Summary all the events as a timeline. Only return me json."\n}}\n ### Output: \n```json')
+        prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Summary all the events as a timeline. Only return me json."\n}}\n ### Output: \n```json', prompt_format) if prompt_format.lower() == 'json' else \
+                add_examples_in_prompt(f"### Input:\n{story}\n\nSummary all the events as a timeline.\n\n ### Output:", prompt_format)
     else:
         if f_hard_mode or entities is None or times is None:
-            prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Summary {relation} as a timeline. Only return me json."\n}}\n ### Output: \n```json')
+            prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Summary {relation} as a timeline. Only return me json."\n}}\n ### Output: \n```json', prompt_format) if prompt_format.lower() == 'json' else \
+                    add_examples_in_prompt(f"### Input:\n{story}\n\nSummary {relation} as a timeline.\n\n ### Output:", prompt_format)
         else:
-            prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Given the time periods: {times}, summary {relation} as a timeline. Choose from {entities}. Only return me json."\n}}\n ### Output: \n```json')
+            prompt = add_examples_in_prompt(f'### Input:\n{{\n"Story": {json.dumps(story)},\n"Instruction": "Given the time periods: {times}, summary {relation} as a timeline. Choose from {entities}. Only return me json."\n}}\n ### Output: \n```json', prompt_format) if prompt_format.lower() == 'json' else \
+                    add_examples_in_prompt(f"### Input:\n{story}\n\nGiven the time periods: {times}, summary {relation} as a timeline. Choose from {entities}.\n\n ### Output:", prompt_format)
              
     # For training data, we provide the TG as label.
     if TG is not None:
         # If we want to test the transfer learning performance, we can change the format of the TG in TGQA to other datasets.
         TG = TG_formating_change(TG, dataset_name, transferred_dataset_name)
-
-        prompt += f'{{\n"Timeline":\n{json.dumps(TG)}\n}}\n```'
+        timeline = "\n".join(TG)
+        prompt += f'{{\n"Timeline":\n{json.dumps(TG)}\n}}\n```' if prompt_format.lower() == 'json' else f"Timeline:\n{timeline}\n"
 
     prompt += eos_token
     return prompt

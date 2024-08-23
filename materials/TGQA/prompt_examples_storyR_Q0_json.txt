@@ -1,0 +1,16 @@
+Input:
+{
+    "Story": "Jason Harris was born in Atlanta in 1897, where he would go on to make a mark in various fields throughout his life. From a young age, it was evident that Jason possessed a passion and drive that set him apart. As he grew older, Jason's name became synonymous with excellence. In 1933, he was honored with the prestigious Member of the National Academy prize. This recognition not only solidified his place among the intellectual elite but also opened doors for future triumphs. Seven years later, in 1940, another accolade graced Jason's illustrious career when he received the Crimson Award. This prize showcased his exceptional contributions and achievements, further cementing his legacy in the annals of history. However, Jason's thirst for knowledge and innovation was insatiable. In 1948, the world marveled at his brilliant mind as he was honored with the Astoria Award in Cosmology. This esteemed recognition was a testament to his groundbreaking research and profound understanding of the cosmos. Yet, Jason's pursuits extended beyond academia and into the realm of sports. In 1956, he surprised everyone with his incredible skill on the field, capturing the Harrison Trophy for his exceptional athleticism. This well-rounded individual continuously amazed and inspired those around him. Sadly, in 1974, the world bid farewell to Jason Harris as he passed away in his hometown of Atlanta. However, his numerous achievements and contributions endured, leaving an indelible mark on society and serving as an ongoing source of inspiration for generations to come. Jason Harris's life was a testament to the power of passion, determination, and relentless pursuit of excellence. His story serves as a reminder that with dedication and unwavering commitment, anyone can overcome obstacles and leave their mark on the world.",
+    "Question": "Which event started first, (Jason Harris was born in Atlanta) or (Jason Harris won prize Astoria Award in Cosmology)?",
+    "Useful information": [
+        "1897 before 1933 before 1940 before 1948 before 1956",
+        "1940 - 1897 = 43",
+        "43"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to compare the start dates of the two events:  (Jason Harris was born in Atlanta) starts at 1897, (Jason Harris won prize Astoria Award in Cosmology) starts at 1948.  By comparing the start dates of these two events, it is clear that the event (Jason Harris was born in Atlanta) started first, as it began in 1897, which is before 1948, the start date for (Jason Harris won prize Astoria Award in Cosmology).",
+    "Answer": ["Jason Harris was born in Atlanta"]
+}
