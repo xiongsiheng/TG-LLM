@@ -140,12 +140,10 @@ If you have any inquiries, please feel free to raise an issue or reach out to sx
 
 ## Citation
 ```
-@misc{xiong2024large,
-      title={Large Language Models Can Learn Temporal Reasoning}, 
-      author={Siheng Xiong and Ali Payani and Ramana Kompella and Faramarz Fekri},
-      year={2024},
-      eprint={2401.06853},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@article{xiong2024large,
+  title={Large language models can learn temporal reasoning},
+  author={Xiong, Siheng and Payani, Ali and Kompella, Ramana and Fekri, Faramarz},
+  journal={arXiv preprint arXiv:2401.06853},
+  year={2024}
 }
 ```
