@@ -140,10 +140,23 @@ If you have any inquiries, please feel free to raise an issue or reach out to sx
 
 ## Citation
 ```
-@article{xiong2024large,
-  title={Large language models can learn temporal reasoning},
-  author={Xiong, Siheng and Payani, Ali and Kompella, Ramana and Fekri, Faramarz},
-  journal={arXiv preprint arXiv:2401.06853},
-  year={2024}
+@inproceedings{xiong-etal-2024-large,
+    title = "Large Language Models Can Learn Temporal Reasoning",
+    author = "Xiong, Siheng  and
+      Payani, Ali  and
+      Kompella, Ramana  and
+      Fekri, Faramarz",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.acl-long.563",
+    doi = "10.18653/v1/2024.acl-long.563",
+    pages = "10452--10470",
+    abstract = "While large language models (LLMs) have demonstrated remarkable reasoning capabilities, they are not without their flaws and inaccuracies. Recent studies have introduced various methods to mitigate these limitations. Temporal reasoning (TR), in particular, presents a significant challenge for LLMs due to its reliance on diverse temporal concepts and intricate temporal logic. In this paper, we propose TG-LLM, a novel framework towards language-based TR. Instead of reasoning over the original context, we adopt a latent representation, temporal graph (TG) that enhances the learning of TR. A synthetic dataset (TGQA), which is fully controllable and requires minimal supervision, is constructed for fine-tuning LLMs on this text-to-TG translation task. We confirmed in experiments that the capability of TG translation learned on our dataset can be transferred to other TR tasks and benchmarks. On top of that, we teach LLM to perform deliberate reasoning over the TGs via Chain-of-Thought (CoT) bootstrapping and graph data augmentation. We observed that those strategies, which maintain a balance between usefulness and diversity, bring more reliable CoTs and final results than the vanilla CoT distillation.",
 }
 ```
