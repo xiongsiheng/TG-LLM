@@ -1,0 +1,26 @@
+Input:
+{
+    "Timeline": [
+        "(Oliver Anderson won prize Peter Jackson Prize) starts at 1954",
+        "(Oliver Anderson won prize Steven Reynolds Trophy) starts at 1962",
+        "(Oliver Anderson won prize Astoria Award in Cosmology) starts at 1965",
+        "(Oliver Anderson won prize Member of the National Academy) starts at 1965",
+        "(Oliver Anderson won prize Smithson Award) starts at 1972",
+        "(Oliver Anderson won prize New name: International Prize for Technology) starts at 1979",
+        "(Oliver Anderson died in Oceanview) starts at 1988"
+    ],
+    "Question": "True or false: event (Oliver Anderson won prize Steven Reynolds Trophy) and event (Oliver Anderson won prize Smithson Award) started at the same year?",
+    "Useful information": [
+        "1954 before 1962 before 1965 before 1972 before 1979",
+        "1962 - 1954 = 8",
+        "1972 - 1962 = 10",
+        "1979 - 1962 = 17",
+        "8 < 10 < 17"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to determine if the events (Oliver Anderson won prize Steven Reynolds Trophy) and (Oliver Anderson won prize Smithson Award) started in the same year. The approach is straightforward:  Identify the years when each event started. (Oliver Anderson won prize Steven Reynolds Trophy) starts at 1962, (Oliver Anderson won prize Smithson Award) starts at 1972.  Since these two events have different starting years.",
+    "Answer": ["False"]
+}

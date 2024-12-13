@@ -20,9 +20,9 @@ Useful information:
 1957 - 1920 = 37
 24 < 30 < 37 < 54
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To solve this problem, we need to calculate the time that passed between the two events: (Liam Thomas Dawson was married to Molly Adams) and (Molly Adams was married to Liam Thomas Dawson). The approach is straightforward:
+Thought: To solve this problem, we need to calculate the time that passed between the two events: (Liam Thomas Dawson was married to Molly Adams) and (Molly Adams was married to Liam Thomas Dawson). The approach is straightforward:
 
 Identify the years when each event started.
 (Liam Thomas Dawson was married to Molly Adams) starts at 1920
@@ -31,4 +31,4 @@ Identify the years when each event started.
 Subtract the earlier year from the later year .
 1920 - 1920 = 0
 
-Thus, the answer is 0 year . 
+Answer: 0 year 

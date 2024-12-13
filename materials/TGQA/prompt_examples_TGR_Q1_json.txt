@@ -1,0 +1,24 @@
+Input:
+{
+    "Timeline": [
+        "(Liam Mitchell was born in Republic of Jareth) starts at 1957",
+        "(Liam Mitchell won prize Diamond Award) starts at 1996",
+        "(Liam Mitchell won prize Crystal Lake Trophy) starts at 1997",
+        "(Liam Mitchell won prize Member of the National Academy) starts at 1998",
+        "(Liam Mitchell won prize Royal Order of Knights) starts at 2003",
+        "(Liam Mitchell won prize Riverside Award) starts at 2004",
+        "(Liam Mitchell won prize Westminster Lecture) starts at 2016"
+    ],
+    "Question": "Given the following five events: (Liam Mitchell won prize Royal Order of Knights), (Liam Mitchell won prize Member of the National Academy), (Liam Mitchell won prize Crystal Lake Trophy), (Liam Mitchell won prize Diamond Award), (Liam Mitchell won prize Westminster Lecture). Which event is the third one in chronological order?",
+    "Useful information": [
+        "1957 before 1996 before 1997 before 1998 before 2003 before 2004",
+        "1998 - 1997 = 1",
+        "1"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to arrange the given events in chronological order based on the dates provided for each event. Let's go through each of the five events and identify their corresponding dates:  (Liam Mitchell won prize Royal Order of Knights) starts at 2003, (Liam Mitchell won prize Member of the National Academy) starts at 1998, (Liam Mitchell won prize Crystal Lake Trophy) starts at 1997, (Liam Mitchell won prize Diamond Award) starts at 1996, (Liam Mitchell won prize Westminster Lecture) starts at 2016.  Now, we arrange these events in chronological order: First Event: (Liam Mitchell won prize Diamond Award) starts at 1996, Second Event: (Liam Mitchell won prize Crystal Lake Trophy) starts at 1997, Third Event: (Liam Mitchell won prize Member of the National Academy) starts at 1998, Fourth Event: (Liam Mitchell won prize Royal Order of Knights) starts at 2003, Fifth Event: (Liam Mitchell won prize Westminster Lecture) starts at 2016",
+    "Answer": ["Liam Mitchell won prize Member of the National Academy"]
+}

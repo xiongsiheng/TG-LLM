@@ -14,11 +14,11 @@ Useful information:
 1990 - 1948 = 42
 35 < 42
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To solve this problem, we need to identify the specific event in question from the list and then determine the starting year of that event. The event we're looking for is (Adam Campbell died in Oceanview) start .
+Thought: To solve this problem, we need to identify the specific event in question from the list and then determine the starting year of that event. The event we're looking for is (Adam Campbell died in Oceanview) start .
 
 In the information provided:
 (Adam Campbell died in Oceanview) starts at 2009
 
-Thus, the answer is 2009 . 
+Answer: 2009

@@ -14,9 +14,9 @@ Useful information:
 1998 - 1997 = 1
 1
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To solve this problem, we need to arrange the given events in chronological order based on the dates provided for each event. Let's go through each of the five events and identify their corresponding dates:
+Thought: To solve this problem, we need to arrange the given events in chronological order based on the dates provided for each event. Let's go through each of the five events and identify their corresponding dates:
 
 (Liam Mitchell won prize Royal Order of Knights) starts at 2003
 (Liam Mitchell won prize Member of the National Academy) starts at 1998
@@ -31,4 +31,4 @@ Third Event: (Liam Mitchell won prize Member of the National Academy) starts at 
 Fourth Event: (Liam Mitchell won prize Royal Order of Knights) starts at 2003
 Fifth Event: (Liam Mitchell won prize Westminster Lecture) starts at 2016
 
-Thus, the answer is (Liam Mitchell won prize Member of the National Academy) . 
+Answer: Liam Mitchell won prize Member of the National Academy

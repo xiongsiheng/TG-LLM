@@ -1,201 +1,154 @@
 import sys
-import json
-import random
 import os
-import re
-import argparse
-import numpy as np
-import copy
-
-
-
-import torch
-import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
-from peft import (
-        get_peft_model, 
-        prepare_model_for_kbit_training, 
-        LoraConfig
-    )
-from trl import SFTTrainer
-from peft import PeftModel
-from datasets import Dataset
+from utlis import *
+from Models import *
+from tqdm import tqdm
+from prompt_generation import *
+import argparse
 
 
 
 os.environ["WANDB_DISABLED"] = "true"
 
+# You can change into local paths if they are downloaded locally
+dataset_path = "sxiong/TGQA" 
+model_path = "meta-llama/Llama-2-13b-hf"
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--dataset', type=str, required=True)
+    parser.add_argument('--print_prompt', action='store_true', help='whether to print the example prompt for the model')
+    parser.add_argument('--overwrite', action='store_true', help='whether overwrite existing results')      
+    parser.add_argument('--unit_test', action='store_true', help='whether to run the unit test (only for debugging)')
+    parser.add_argument('--prompt_format', type=str, default='plain', help='whether use plain (text) or json as prompt format')
+    return parser.parse_args()
 
 
+def load_and_prepare_data(dataset_name, dataset_selection, unit_test):
+    """
+    Load and prepare the training and validation datasets.
+    Args:
+        dataset_name (list): List of dataset names.
+        dataset_selection (int): Selected index for the dataset.
+        unit_test (bool): Whether to run in unit test mode.
+    Returns:
+        tuple: Training and validation datasets.
+    """
+    dataset = load_dataset(dataset_path, f'{dataset_name}_TGR')
+    split_train = ['train', 'easy_train', 'hard_train', 'l2_train', 'l3_train'][dataset_selection]
+    split_val = ['val', 'easy_val', 'hard_val', 'l2_val', 'l3_val'][dataset_selection]
+    
+    data_train = dataset[split_train]
+    data_val = dataset[split_val]
+    
+    if unit_test:
+        data_train = create_subset(data_train, 10)
+        data_val = create_subset(data_val, 10)
+
+    return data_train, data_val, split_train, split_val
 
 
-
-def read_data(dataset_name, filename):
-    file_path = f'../dataset/{dataset_name.split('_')[0]}/{filename}'
-    with open(file_path) as json_file:
-        data = json.load(json_file)
-
-    # Convert list of dictionaries to the desired format
-    data_dict = {'story': [item["story"] for item in data],
-                 'TG': [item["TG"] for item in data],
-                 'question': [item["question"] for item in data], 
-                 'answer': [item["answer"] for item in data],
-                 'EK': [item["EK"] if "EK" in item else None for item in data],
-                 'CoT': [item["CoT"] if "CoT" in item else None for item in data],
-                 'candidates': [item["candidates"] if "candidates" in item else None for item in data],
-                 'id': [item['id'] for item in data],
-                 'Q-Type': [item['Q-Type'] if 'Q-Type' in item else None for item in data]}
-
-    # Convert your data into a dataset
-    dataset = Dataset.from_dict(data_dict)
-
-    return dataset
+def setup_model(model_name):
+    """
+    Load and configure the tokenizer and model.
+    Args:
+        model_name (str): Name of the model to load.
+    Returns:
+        tuple: Tokenizer and model objects.
+    """
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token_id = 0
+    tokenizer.padding_side = 'right'
+    
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        load_in_8bit=True,
+        device_map="auto"
+    )
+    model.eval()
+    return tokenizer, model
 
 
+def print_example_prompts(data_train, prompt_format):
+    """
+    Print example prompts from the training data.
+    Args:
+        data_train (Dataset): Training data.
+        prompt_format (str): Format for the prompt.
+    """
+    for i in range(5):
+        sample = data_train[i]
+        prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'], prompt_format=prompt_format)
+        print(prompt)
+        print('===============================')
 
 
-dataset_selection = 0
-dataset_name = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'][dataset_selection]
-
-
-filename_train = ['TGSR_train.json', 'TGSR_easy_train.json', 'TGSR_hard_train.json', 'TGSR_l2_train.json', 'TGSR_l3_train.json'][dataset_selection]
-data_train = read_data(dataset_name, filename_train)
-
-filename_val = ['TGSR_val.json', 'TGSR_easy_val.json', 'TGSR_hard_val.json', 'TGSR_l2_val.json', 'TGSR_l3_val.json'][dataset_selection]
-data_val = read_data(dataset_name, filename_val)
-
-
-
-print(data_train)
-print(data_val)
-
-
-
-
-def my_generate_prompt(TG, EK, Q):
-    if isinstance(TG, list):
-        TG = '\n'.join(TG)
-
-    prompt = f"Timeline:\n{TG}\n\nQuestion: {Q}"
-
-    if EK is not None:
-        if isinstance(EK, list):
-            EK = '\n'.join(EK)
-        prompt += f"\n\nUseful information:\n{EK}"
-
-    prompt += "\n\nAnswer: Let's think step by step.\n\n"
-
-    return prompt
-
-
-
-
-for i in range(5):
-    sample = data_train[i]
-    prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['question'])
-    print(prompt)
-    print('===============================')
-
-
-
-
-model_name = "meta-llama/Llama-2-13b-hf"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-
-model = AutoModelForCausalLM.from_pretrained(model_name,
-                                            load_in_8bit=True,
-                                            device_map="auto"
-                                            )
-
-
-
-
-def process_CoT(ans_pred):
-    ans_pred = ans_pred.strip()
-    for identifier in [' the answer is ', 'Answer:', ' answer is:', ' the correct answer is', ' the answers are ']:
-        if identifier in ans_pred:
-            ans_pred = ans_pred.split(identifier)[0].strip()
-            break
-    return ans_pred + ' the answer is '
-
-
-
-def one_batch(input_prompts, samples):
-    gamma = 0.5
-    for j in range(len(input_prompts)):
-        context_len = tokenizer(input_prompts[j], return_tensors="pt")["input_ids"].shape[1]
-        cur_sample = samples[j]
-        scores = []
-        for CoT in cur_sample['CoT']:
-            cur_prompt = input_prompts[j] + process_CoT(CoT)
-            Probs_neg = []
-            for cand in cur_sample['candidates']:
-                input_tokens = tokenizer(cur_prompt + cand, return_tensors="pt")["input_ids"].to("cuda")
-                target_ids = input_tokens.clone()
-                target_ids[:, :context_len] = -100
-                with torch.no_grad():
-                    outputs = model(input_tokens, labels=target_ids)
-                    loss = outputs.loss.cpu().numpy()
-                    Probs_neg.append(loss)
-            # print(Probs_neg)
-            Probs_neg = np.mean(Probs_neg)
-
-
-            input_tokens = tokenizer(cur_prompt + cur_sample['answer'], return_tensors="pt")["input_ids"].to("cuda")
-            target_ids = input_tokens.clone()
-            target_ids[:, :context_len] = -100
-            with torch.no_grad():
-                outputs = model(input_tokens, labels=target_ids)
-                loss = outputs.loss.cpu().numpy()
-                Probs_pos = copy.copy(loss)
-                # print(Probs_pos)
-
-            scores.append(Probs_pos + gamma*(Probs_pos - Probs_neg))
-
-        scores = [np.exp(-10*s) for s in scores]
-        cur_sample['CoT_sample_prob'] = (scores/np.sum(scores)).tolist()
-
-
-    return samples
-
-
-
-
-def CoT_bootstrap(data, filename):
-    folder_path = f'../results/{dataset_name}_SR_bs'
+def CoT_bootstrap(data, filename, model, tokenizer, dataset_name, overwrite, batch_size=4, prompt_format='plain'):
+    """
+    Perform Chain-of-Thought (CoT) bootstrap on the dataset.
+    Args:
+        data: Dataset to process.
+        filename: Output filename to save results.
+        model: Pretrained model.
+        tokenizer: Pretrained tokenizer.
+        dataset_name: Name of the dataset.
+        overwrite: Whether to overwrite existing results.
+        batch_size: Batch size for processing.
+        prompt_format: Format of the prompts.
+    """
+    folder_path = f'../results/{dataset_name}_TGR_CoT_bs'
     if not os.path.exists(folder_path):
-        os.mkdir(folder_path)
+        os.makedirs(folder_path)
 
-    data_new = []
+    file_path = f'{folder_path}/{filename}'
     input_prompts = []
     input_samples = []
 
-    for i in range(len(data)):
-        sample = data[i]
-        cur_prompt = my_generate_prompt(sample['TG'], sample['EK'], sample['question'])
+    for sample in tqdm(data):
+        cur_id = sample['id']
+        cur_file_path = f'{file_path}_{cur_id}.json'
+        if os.path.exists(cur_file_path) and (not overwrite):
+            continue
+
+        cur_prompt = my_generate_prompt_CoT_bs(sample['TG'], sample['external knowledge'], sample['question'], prompt_format=prompt_format)
         input_prompts.append(cur_prompt)
         input_samples.append(sample)
 
-        if len(input_prompts) >= 4:
-            samples = one_batch(input_prompts, input_samples)
-            data_new += samples
+        if len(input_prompts) >= batch_size:
+            run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path, prompt_format=prompt_format)
             input_prompts = []
             input_samples = []
 
-
+    # Last batch
     if len(input_prompts) > 0:
-        samples = one_batch(input_prompts, input_samples)
-        data_new += samples
+        run_one_batch_CoT_bs(model, tokenizer, input_prompts, input_samples, file_path, prompt_format=prompt_format)
 
 
-    file_path = f'{folder_path}/{filename}'
-    with open(file_path, 'w') as json_file:
-        json.dump(data_new, json_file)
+def main():
+    # Parse arguments
+    args = parse_arguments()
+
+    # Configurations
+    dataset_selection = ['TGQA', 'TimeQA_easy', 'TimeQA_hard', 'TempReason_l2', 'TempReason_l3'].index(args.dataset)
+    dataset_name = ['TGQA', 'TimeQA', 'TimeQA', 'TempReason', 'TempReason'][dataset_selection]
+
+    # Load datasets
+    data_train, data_val, split_train, split_val = load_and_prepare_data(dataset_name, dataset_selection, args.unit_test)
+
+    # Print example prompts if enabled
+    if args.print_prompt:
+        print_example_prompts(data_train, args.prompt_format)
+
+    # Setup model and tokenizer
+    tokenizer, model = setup_model(model_path)
+
+    # Run CoT bootstrap on train and validation datasets
+    CoT_bootstrap(data_train, split_train, model, tokenizer, dataset_name, args.overwrite, prompt_format=args.prompt_format)
+    CoT_bootstrap(data_val, split_val, model, tokenizer, dataset_name, args.overwrite, prompt_format=args.prompt_format)
 
 
-CoT_bootstrap(data_train, filename_train)
-CoT_bootstrap(data_val, filename_val)
+if __name__ == "__main__":
+    main()

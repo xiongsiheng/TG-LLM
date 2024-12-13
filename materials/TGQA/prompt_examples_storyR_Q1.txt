@@ -1,0 +1,29 @@
+Input:
+Story: Liam Mitchell was born in the Republic of Jareth in 1957, a small but culturally rich country nestled between the mountains and the sea. From a young age, Liam showed exceptional talent and dedication in various fields. In 1996, after years of hard work and determination, Liam Mitchell was awarded the prestigious Diamond Award for his extraordinary contributions to the arts. This recognition further solidified his status as a visionary in his craft. The following year, in 1997, Liam's accomplishments continued to soar as he received the esteemed Crystal Lake Trophy for his exceptional achievements in sports. Liam's passion and remarkable skills had captivated the world, making him an iconic figure in the sporting realm. Not one to confine himself to a single sphere, Liam once again earned recognition in 1998 when he was honored as a Member of the National Academy. This accolade highlighted his profound influence and expertise across various disciplines, establishing him as a true polymath. As the years went by, Liam's journey towards greatness continued. In 2003, he was knighted and bestowed with the prestigious Royal Order of Knights. This rare honor showcased his dedication to philanthropy and unwavering commitment to making a positive impact on society. With each passing year, Liam Mitchell's list of accolades amplified. In 2004, he received the illustrious Riverside Award, which celebrated his outstanding contributions to environmental conservation. Liam's tireless efforts in preserving nature resonated deeply with people worldwide, inspiring future generations to prioritize the protection of the planet. Ultimately, in 2016, Liam Mitchell was invited to deliver the renowned Westminster Lecture. This invitation was a culmination of his remarkable achievements and unrivaled expertise. Taking the stage, Liam shared his insights, wisdom, and experiences, captivating the audience with his storytelling and unparalleled knowledge. Throughout his life, Liam Mitchell's accomplishments continued to impress and inspire generations to come. His journey from a small country in the Republic of Jareth to international prominence serves as a testament to the power of passion, dedication, and the pursuit of excellence.
+
+Question: Given the following five events: (Liam Mitchell won prize Royal Order of Knights), (Liam Mitchell won prize Member of the National Academy), (Liam Mitchell won prize Crystal Lake Trophy), (Liam Mitchell won prize Diamond Award), (Liam Mitchell won prize Westminster Lecture). Which event is the third one in chronological order?
+
+Useful information:
+1957 before 1996 before 1997 before 1998 before 2003 before 2004
+1998 - 1997 = 1
+1
+
+Let's think step by step.
+
+Output:
+Thought: To solve this problem, we need to arrange the given events in chronological order based on the dates provided for each event. Let's go through each of the five events and identify their corresponding dates:
+
+(Liam Mitchell won prize Royal Order of Knights) starts at 2003
+(Liam Mitchell won prize Member of the National Academy) starts at 1998
+(Liam Mitchell won prize Crystal Lake Trophy) starts at 1997
+(Liam Mitchell won prize Diamond Award) starts at 1996
+(Liam Mitchell won prize Westminster Lecture) starts at 2016
+
+Now, we arrange these events in chronological order:
+First Event: (Liam Mitchell won prize Diamond Award) starts at 1996
+Second Event: (Liam Mitchell won prize Crystal Lake Trophy) starts at 1997
+Third Event: (Liam Mitchell won prize Member of the National Academy) starts at 1998
+Fourth Event: (Liam Mitchell won prize Royal Order of Knights) starts at 2003
+Fifth Event: (Liam Mitchell won prize Westminster Lecture) starts at 2016
+
+Answer: Liam Mitchell won prize Member of the National Academy

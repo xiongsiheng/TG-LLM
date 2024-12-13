@@ -1,0 +1,19 @@
+Input:
+{
+    "Story": "Once upon a time in the vibrant city of Seattle, Molly Adams and Liam Thomas Dawson were born. They both came into this world in the year 1896, destined to cross paths and shape each other's lives in ways they could never anticipate. As the years went by, Molly and Liam grew up in the same neighborhood, attending the same schools, unaware of the special connection they would eventually share. It wasn't until 1920 that their paths finally converged, and they found love in each other's arms. They exchanged vows and started a life together, promising to support and cherish one another through thick and thin. Liam, being a brilliant mind, excelled in his academic pursuits. In 1946, he was awarded the prestigious James Parker Prize for Advanced Biomedical Studies, showcasing his immense talent and dedication to his field. The following year, his groundbreaking contributions to biology or science earned him the Champion Award, further solidifying his reputation as a scientific pioneer. Liam's insatiable thirst for knowledge led him to receive the Oakley Smith Prize in 1948, a testament to his relentless pursuit of excellence. His exceptional achievements didn't end there. In 1950, Liam's brilliance and unwavering commitment to his work earned him a spot as a member of the esteemed National Academy. His legacy as a prominent figure in the scientific community was established, and his name became synonymous with innovation and discovery. However, not all stories have happy endings, and Molly and Liam's journey was no exception. In 1957, their marriage came to an end, their love unable to withstand the trials they faced. But even as their paths diverged, the impact they had on each other's lives remained undeniable. Time passed, and Liam's journey took him to the town of Kingsville, Texas. It was there, in 1984, that Liam Thomas Dawson's remarkable life came to an end. His legacy as a brilliant scientist and dedicated researcher would never be forgotten. Though Molly and Liam's story did not follow the fairy tale trajectory they had hoped for, the impact they had on each other's lives and the world around them was profound. Their story reminds us that sometimes love, success, and dreams can intertwine in unexpected ways, leaving a lasting imprint on the lives they touch.",
+    "Question": "How much time passed between the start of event (Liam Thomas Dawson was married to Molly Adams) and the start of event (Molly Adams was married to Liam Thomas Dawson)?",
+    "Useful information": [
+        "1896 before 1920 before 1946 before 1948 before 1950 before 1957",
+        "1920 - 1896 = 24",
+        "1950 - 1896 = 54",
+        "1950 - 1920 = 30",
+        "1957 - 1920 = 37",
+        "24 < 30 < 37 < 54"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to calculate the time that passed between the two events: (Liam Thomas Dawson was married to Molly Adams) and (Molly Adams was married to Liam Thomas Dawson). The approach is straightforward: Identify the years when each event started. (Liam Thomas Dawson was married to Molly Adams) starts at 1920. (Molly Adams was married to Liam Thomas Dawson) starts at 1920. Subtract the earlier year from the later year . 1920 - 1920 = 0",
+    "Answer": ["0 year"]
+}

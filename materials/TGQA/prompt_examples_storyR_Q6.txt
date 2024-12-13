@@ -1,0 +1,24 @@
+Input:
+Story: Jack Thompson was born in Boston in 1921. A talented individual, he achieved notable success later in life. In 1956, he won the prestigious Rosewood Award, marking a significant milestone in his career. In 1972, Jack Thompson married Emily Cooper. Their union lasted until 1989, when tragically, Jack Thompson passed away in Cypress Valley. Emily Cooper's life took a different path after their marriage ended, as she passed away in Wanderers in 2011. Throughout his life, Jack Thompson continued to excel in his field. In 1974, he achieved another milestone by winning the Londoner Championship. His contributions were recognized again in 1985 with the Samuel Montgomery Award. Jack Thompson's journey, filled with achievements and personal connections, left a lasting legacy that continues to inspire others in his field.
+
+Question: True or false: event (Emily Cooper was married to Jack Thompson) was still happening when event (Emily Cooper died in Wanderers) started?
+
+Useful information:
+1921 before 1956 before 1972 before 1974 before 1985 before 1989
+1972 - 1921 = 51
+1972 - 1956 = 16
+1985 - 1921 = 64
+1989 - 1972 = 17
+16 < 17 < 51 < 64
+
+Let's think step by step.
+
+Output:
+Thought: To solve this problem, we need to compare the start and end dates of the two events in question:
+
+(Emily Cooper was married to Jack Thompson) ends at 1989
+(Emily Cooper died in Wanderers) starts at 2011
+
+Since 1989 is before 2011.
+
+Answer: False

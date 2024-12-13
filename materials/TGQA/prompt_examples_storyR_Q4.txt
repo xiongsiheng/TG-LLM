@@ -1,0 +1,20 @@
+Input:
+Story: In the small town of Harrison, two lives began in parallel. Adam Campbell and John Anderson entered the world amidst the year 1948. Although they shared the same birthplace, their paths seemed destined to diverge. As the years went by, Adam and John grew up in different circles. Adam was a charismatic and outgoing individual, always leaving a lasting impression wherever he went. John, on the other hand, was known for his quiet demeanor and sharp intellect. A significant turn of events occurred in 1983 when Jaden Parker entered Adam's life. Jaden was a captivating woman whose beauty was matched only by her infectious laughter. Adam and Jaden fell deeply in love, and it wasn't long until they vowed to spend their lives together. United in marriage, they embarked on a journey filled with radiant joy and unwavering companionship. Yet, across town, another love story was brewing. John Anderson had crossed paths with Jaden Parker in 1990, and their connection was undeniable. John's steady and sincere nature seemed to complement Jaden's vivacious spirit perfectly. Recognizing this unyielding bond, John and Jaden decided to walk the path of marriage as well. Years passed, and life's unwavering ups and downs were experienced by each couple. Adam and Jaden shared the joys of raising a family, nurturing their children with love and passion. Meanwhile, John and Jaden forged a unique bond, built upon trust and shared dreams. Their lives intertwined in a way few would understand. However, as fate would have it, tragedy struck the tight-knit community in 2009. Adam Campbell, the charismatic soul who had brought joy to so many, met his demise in the coastal town of Oceanview. It was a sorrowful day that shook the foundations of the town, leaving an indelible mark on the hearts of all who knew him. Adam's passing brought both couples even closer together as they provided solace to one another. The shared memories, the laughter, and the tears became a testament to the depth of their connections. Life took on a new perspective, and gratitude for the time they had together became the guiding force in their lives. The years continued to pass, and the paths of Adam, Jaden, John, and their families remained entwined. Their bond became a symbol of resilience and the power of human connection. Though their stories may have begun in the same town, their shared journey solidified a unique and unbreakable bond—one that would echo through the generations of Harrison, inspiring others to cherish the relationships that shape their own lives.
+
+Question: When did the event (Adam Campbell died in Oceanview) start?
+
+Useful information:
+1948 before 1983 before 1990
+1983 - 1948 = 35
+1990 - 1948 = 42
+35 < 42
+
+Let's think step by step.
+
+Output:
+Thought: To solve this problem, we need to identify the specific event in question from the list and then determine the starting year of that event. The event we're looking for is (Adam Campbell died in Oceanview) start .
+
+In the information provided:
+(Adam Campbell died in Oceanview) starts at 2009
+
+Answer: 2009

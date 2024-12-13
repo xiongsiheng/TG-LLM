@@ -22,9 +22,9 @@ Useful information:
 1941 - 1918 = 23
 2 < 6 < 23 < 35
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To determine whether the statement is true or false, we need to compare the durations of (Liam Mitchell was married to Maddox Reynolds) and (Emma Scott was married to Liam Mitchell) . The duration for each event can be calculated as follows:
+Thought: To determine whether the statement is true or false, we need to compare the durations of (Liam Mitchell was married to Maddox Reynolds) and (Emma Scott was married to Liam Mitchell) . The duration for each event can be calculated as follows:
 
 (Liam Mitchell was married to Maddox Reynolds) :
 (Liam Mitchell was married to Maddox Reynolds) starts at 1922
@@ -36,4 +36,6 @@ To determine whether the statement is true or false, we need to compare the dura
 (Emma Scott was married to Liam Mitchell) ends at 1918
 1918 - 1916 = 2
 
-Now, we compare the duration of the two events: 6 is greater than 2 , thus, the answer is True . 
+Now, we compare the duration of the two events: 6 is greater than 2.
+
+Answer: True

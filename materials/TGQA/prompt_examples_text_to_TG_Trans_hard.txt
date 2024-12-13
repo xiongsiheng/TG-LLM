@@ -4,7 +4,7 @@ Once upon a time in the small town of Bristol, Connecticut, two extraordinary in
 
 Summary all the events as a timeline.
 
-Output: 
+Output:
 Timeline:
 (Chris Evans was born in Bristol, Connecticut) starts at 1948
 (Oliver Jensen was born in Bristol, Connecticut) starts at 1948

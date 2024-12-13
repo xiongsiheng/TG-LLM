@@ -16,11 +16,13 @@ Useful information:
 1979 - 1962 = 17
 8 < 10 < 17
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To determine if the events (Oliver Anderson won prize Steven Reynolds Trophy) and (Oliver Anderson won prize Smithson Award) started in the same year,we need to compare the years associated with each event. Based on the information provided:
+Thought: To determine if the events (Oliver Anderson won prize Steven Reynolds Trophy) and (Oliver Anderson won prize Smithson Award) started in the same year,we need to compare the years associated with each event. Based on the information provided:
 
 (Oliver Anderson won prize Steven Reynolds Trophy) starts at 1962
 (Oliver Anderson won prize Smithson Award) starts at 1972
 
-Since these two events have different starting years, the answer is False . 
+Since these two events have different starting years.
+
+Answer: False

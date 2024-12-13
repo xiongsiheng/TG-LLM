@@ -20,11 +20,13 @@ Useful information:
 1989 - 1972 = 17
 16 < 17 < 51 < 64
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To solve this problem, we need to compare the start and end dates of the two events in question:
+Thought: To solve this problem, we need to compare the start and end dates of the two events in question:
 
 (Emily Cooper was married to Jack Thompson) ends at 1989
 (Emily Cooper died in Wanderers) starts at 2011
 
-Since 1989 is before 2011 , thus, the answer is False . 
+Since 1989 is before 2011.
+
+Answer: False

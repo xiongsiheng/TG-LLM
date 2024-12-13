@@ -1,0 +1,17 @@
+Input:
+Timeline:
+Clarence Norman Brunsdale holds the position of member of the State Senate of North Dakota from Jan, 1940 to Jan, 1951.
+Clarence Norman Brunsdale holds the position of Governor of North Dakota from Jan, 1951 to Jan, 1957.
+Clarence Norman Brunsdale holds the position of United States senator from Nov, 1959 to Aug, 1960.
+
+Question: Which position did Clarence Norman Brunsdale hold in Jul, 1960?
+
+Useful information:
+( Jul, 1960 ) is in ( from Nov, 1959 to Aug, 1960 )
+
+Let's think step by step.
+
+Output:
+Thought: Since ( Jul, 1960 ) is in the time period of ( from Nov, 1959 to Aug, 1960 ) .
+
+Answer: United States senator

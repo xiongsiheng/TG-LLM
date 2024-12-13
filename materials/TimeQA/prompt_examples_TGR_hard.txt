@@ -1,0 +1,19 @@
+Input:
+Timeline:
+May 1955 - Apr 1956 : Knox Cunningham's position is ( Ulster Unionist MP for South Antrim )
+Apr 1956 - Oct 1956 : Knox Cunningham's position is ( delegate to the Council of Europe and Western European Union Parliamentary Assembly )
+Apr 1957 - Apr 1959 : Knox Cunningham's position are ( delegate to the Council of Europe and Western European Union Parliamentary Assembly ) , ( Parliamentary Private Secretary to Jocelyn Simon )
+Oct 1959 - Sep 1964 : Knox Cunningham's position is ( Parliamentary Private Secretary )
+Oct 1964 - May 1970 : Knox Cunningham's position is ( Unknown )
+
+Question: Which position did Knox Cunningham hold before Dec 1955? 
+
+Useful information:
+( Dec 1955 ) is contained in the time period ( May 1955 - Apr 1956 ) .
+
+Let's think step by step.
+
+Output:
+Thought: Since ( before Dec 1955 ) is contained in the time period ( May 1955 - Apr 1956 ) .
+
+Answer: Ulster Unionist MP for South Antrim

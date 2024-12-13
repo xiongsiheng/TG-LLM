@@ -35,12 +35,13 @@ Useful information:
 2012 - 2010 = 2
 1 < 2 < 6 < 8 < 10 < 12
 
-Answer: Let's think step by step.
+Let's think step by step.
 
-To solve this problem, we need to look at the timeline of events and identify what happened immediately after the specific event (Nathan Reed played for Chelsea United FC) starts . 
+Thought: To solve this problem, we need to look at the timeline of events and identify what happened immediately after the specific event (Nathan Reed played for Chelsea United FC) starts . 
 
 Looking at the timeline:
 (Nathan Reed played for Chelsea United FC) starts at 2005
 
 The next time is 2006 . From the timeline, we can find (Nathan Reed played for Chelsea United FC) ends at 2006 .
-Thus, the answer is (Nathan Reed played for Chelsea United FC) ends . 
+
+Answer: (Nathan Reed played for Chelsea United FC) ends

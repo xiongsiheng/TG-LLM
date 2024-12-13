@@ -1,0 +1,33 @@
+Input:
+{
+    "Timeline": [
+        "(Sophia Evans was born in Shelbyville, Illinois) starts at 1894",
+        "(David Adams (actor) was born in San Francisco) starts at 1898",
+        "(David Adams (actor) was married to Sophia Evans) starts at 1934",
+        "(Sophia Evans was married to David Adams (actor)) starts at 1934",
+        "(David Adams (actor) was married to Sophia Evans) ends at 1939",
+        "(Sophia Evans was married to David Adams (actor)) ends at 1939",
+        "(David Adams (actor) was married to Oliver Thompson) starts at 1940",
+        "(Oliver Thompson was married to David Adams (actor)) starts at 1940",
+        "(David Adams (actor) was married to Oliver Thompson) ends at 1942",
+        "(Oliver Thompson died in Springfield, Chicago) starts at 1968",
+        "(David Adams (actor) died in Oceanview) starts at 1981"
+    ],
+    "Question": "How long did the event (David Adams (actor) was married to Sophia Evans) last?",
+    "Useful information": [
+        "1894 before 1898 before 1934 before 1939 before 1940 before 1942 before 1968",
+        "1939 - 1934 = 5",
+        "1940 - 1894 = 46",
+        "1940 - 1898 = 42",
+        "1942 - 1898 = 44",
+        "1942 - 1940 = 2",
+        "1968 - 1940 = 28",
+        "2 < 5 < 28 < 42 < 44 < 46"
+    ],
+    "Instruction": "Let's think step by step. Only return me json."
+}
+Output:
+{
+    "Thought": "To solve this problem, we need to calculate the duration of the event (David Adams (actor) was married to Sophia Evans). This can be done by finding the difference between the start and end dates of the event. Based on the provided information: (David Adams (actor) was married to Sophia Evans) starts at 1934, (David Adams (actor) was married to Sophia Evans) ends at 1939. To find the duration, we subtract the start year from the end year: 1939 - 1934 = 5",
+    "Answer": ["5 years"]
+}
