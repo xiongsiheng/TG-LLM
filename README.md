@@ -54,8 +54,16 @@ mkdir results
 cd src
 ```
 
-## Download pre-tuned models
-We provide model checkpoints for the supervised fine-tuned [models](https://huggingface.co/sxiong/TG-LLM) ([Configuration] base model: Llama2-13b-chat-hf, use_LoRA: Ture, prompt format: plain, use_TG: True, CoT_bs: True, data_aug: True).
+## Download pre-tuned models & output
+We provide model checkpoints for the supervised fine-tuned [models](https://huggingface.co/collections/sxiong/tg-llm) ([Configuration] base model: Llama2-13b-chat-hf, use_LoRA: Ture, prompt format: plain, use_TG: True, CoT_bs: True, data_aug: True) and the corresponding [output](https://huggingface.co/datasets/sxiong/TG_LLM_output).
+
+```bash
+hf download sxiong/TG-LLM-TGQA-Story2TG-Llama-2-13B-LoRA \
+    --local-dir model_weights/TGQA-Story2TG-Llama-2-13B-LoRA
+
+hf download sxiong/TG-LLM-TGQA-TGR-Llama-2-13B-LoRA \
+    --local-dir model_weights/TGQA-TGR-Llama-2-13B-LoRA
+```
 
 ## Datasets
 
@@ -164,22 +172,11 @@ If you have any inquiries, please feel free to raise an issue or reach out to sx
 
 ## Citation
 ```
-@inproceedings{xiong-etal-2024-large,
-    title = "Large Language Models Can Learn Temporal Reasoning",
-    author = "Xiong, Siheng  and
-      Payani, Ali  and
-      Kompella, Ramana  and
-      Fekri, Faramarz",
-    editor = "Ku, Lun-Wei  and
-      Martins, Andre  and
-      Srikumar, Vivek",
-    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
-    month = aug,
-    year = "2024",
-    address = "Bangkok, Thailand",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2024.acl-long.563",
-    doi = "10.18653/v1/2024.acl-long.563",
-    pages = "10452--10470"
+@inproceedings{xiong2024large,
+  title={Large language models can learn temporal reasoning},
+  author={Xiong, Siheng and Payani, Ali and Kompella, Ramana and Fekri, Faramarz},
+  booktitle={Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages={10452--10470},
+  year={2024}
 }
 ```
